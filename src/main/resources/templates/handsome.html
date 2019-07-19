@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name = "viewport" content ="width=device-width, initial-scale=1.0,user-scalable=no ">
+    <style type="text/css">
+        body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #allmap{height:500px;width:100%;}
+        #r-result{width:100%;}
+    </style>
+    <link type="text/css" th:href="@{/Css/common.css}" rel="stylesheet">
+    <script th:src="@{/Js/requset.js}"></script>
+
+    <script th:src="@{/Js/utility.js}"></script>
+    <script type="text/javascript" th:src="@{/Js/GeoUtils.js}"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q">
+
+        var html = document.querySelector('handsome');
+        changeRem();
+        window.addEventListener('resize', changeRem);
+
+        function changeRem() {
+            var width = handsome.getBoundingClientRect().width;
+            handsome.style.fontSize = width / 10 + 'px';
+        }
+    </script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.0.0.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.3.min.js"></script>
+
+    <title>地图导航</title>
+
+</head>
+
+<body>
+<input type="hidden" id="thefirst"  th:value="${scenicId}" />
+<input type="hidden" id="TokenVlaue" th:value="${token}">
+<div id="overall-box">
+<div id="tab">
+<ul id="taboff">
+    <li class="off" id="showmap" >电子导游</li>
+    <li class="off" id="hidemap">景点信息</li>
+</ul>
+</div>
+    <!--//第一个模块样式-->
+    <div id="rectangle-allmap">
+        <div id="allmap" ></div>
+            <div class="map-use-tools">
+              <div class="map-buy"id="purchase">立即购买</div>
+                <div class="map-activation" id="activate">
+                 <div class="map-activation-img">
+                     <img th:src="@{/tiles/zoom/scancode.png}">
+                 </div>
+                   <div class="map-activation-text">
+                       <span>扫码</span>
+                   </div>
+                </div>
+                <div class="map-activation">
+                    <div class="map-activation-img">
+                        <img th:src="@{/tiles/zoom/path.png}">
+                    </div>
+                    <div class="map-activation-text">
+                        <span>路线</span>
+                    </div>
+                </div>
+                <div class="map-activation">
+                    <div class="map-activation-img">
+                        <img th:src="@{/tiles/zoom/automatic.png}">
+                    </div>
+                   <div class="map-activation-explain" onclick="gethost()">
+                       <span>自动讲解</span>
+                   </div>
+                </div>
+                <div class="map-activation">
+                    <div class="map-activation-img">
+                        <img th:src="@{/tiles/zoom/automatic.png}">
+                    </div>
+                    <div class="map-activation-explain" onclick="sethost()">
+                        <span>取消讲解</span>
+                    </div>
+                </div>
+            </div>
+
+      <div class="bottom-column">
+          <div class="bottom-column-location">
+              <div class="column-location-activation">
+                  <img th:src="@{/tiles/zoom/orientation.png}"/>
+                  <div>定位</div>
+              </div>
+
+          </div>
+          <div class="bottom-column-video">
+              <div class="bottom-column-video-left">
+                  <div class="bottom-column-video-brief">
+                      <div class="bottom-column-video-top"><span name="scenicname">武侯祠介绍</span></div>
+                     <div class="bottom-column-video-text ">
+                         <span name="introduce"> 悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>
+                     </div>
+                  </div>
+                  <div class="bottom-column-audio">
+                      <div class="bottom-column-audio-center" id="palyaudios">
+                          <img name="palyaudiosimg" th:src="@{/tiles/zoom/suspend.png}">
+                      </div>
+                  </div>
+              </div>
+              <div class="bottom-column-video-right" id="tableabove">
+                  <img th:src="@{/tiles/zoom/project.png}">
+              </div>
+          </div>
+      </div>
+      <!--上划样式列表-->
+        <div hidden  id="toplist" class="top-list">
+          <div class="list-underline" id="tolistunder"></div>
+            <div class="list-underline-con">
+                <div class="list-underline-text" id="list-underline-span">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    <!--第二个模块的样式-->
+    <div  hidden   id="scenic-allmap">
+        <div class="attractions">
+        <img id="vover" th:src="@{/tiles/zoom/qingshang.jpg}">
+       </div>
+        <div class="attractions-suspension">
+          <div class="attractions-scenic">
+              <span>景区介绍</span>
+          </div>
+            <div class="attractions-scenic-text" :style="displayObject">
+                <span  name="introduce">
+                     九寨沟国家级自然保护区位于四川省阿坝藏族羌族自治州九寨沟县境内，是中国第一个以保护自然风景为主要目的的自然保护区，也是中国著名风景名胜区和全国文明风景旅游区示范点，被纳入《世界自然遗产名录》、“人与生物圈”保护网络。九寨沟是一条纵深50余km的山沟谷地，总面积650.74hm²，大部分为森林所覆盖。因沟内有树正、荷叶、则查洼等九个藏族村寨坐落在这片高山湖泊群中而得名。2009年，
+                    瀑宽320米的诺日朗瀑布入选中国世界纪录协会中国最宽的瀑布。　
+                    因地灾风险，九寨沟景区从2018年7月1日起采取临时性闭园措施，暂停接待游客。
+                </span>
+            </div>
+            <div class="attractions-scenic-style" @click="allshow">展开</div>
+        </div>
+        <div class="attractions-scenic-aduio">
+            <div class="attractions-music-styles" id="twoplaymusic">
+                <img name="palyaudiosimg" th:src="@{/tiles/zoom/suspend.png}">
+            </div>
+            <div class="attractions-music-text">
+                <div class="attractions-music-text-duction">
+                    <span name="scenicname"></span>
+                </div>
+            </div>
+        </div>
+        <div class="play-guide">
+            <div class="play-guide-text">
+                <span>游玩指引</span>
+            </div>
+            <div class="play-guide-duction">
+            <span>营业时间</span>
+            <div class="play-guide-duction-right">
+                    <span id="openhours">
+                         开放时间：旺季8：00 - 21：30（7月1日 - 10月7日）,淡季8：00 -18：30（10月8日 - 次年6月30日）
+                    </span>
+            </div>
+        </div>
+
+            <div class="play-guide-duction">
+                <span>门票</span>
+                <div class="play-guide-duction-right">
+                    <span id="priceString">
+                         60元，家庭套餐120元
+                    </span>
+                </div>
+            </div>
+
+            <div class="play-guide-duction">
+                <span>建议游玩时间</span>
+                <div class="play-guide-duction-right">
+                    <span>
+                         建议游玩时间：1-2小时
+                    </span>
+                </div>
+            </div>
+
+
+            <div class="play-guide-duction">
+                <span>地址</span>
+                <div class="play-guide-duction-right">
+                    <span id="address">
+                         <!--成都市武侯祠大街231号-->
+                    </span>
+                    <div class="play-address">
+                    <img th:src="@{/tiles/zoom/please.png}">
+                        <div>去这里</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="play-guide-duction">
+                <span>交通</span>
+                <div class="play-guide-duction-right">
+                    <span id="traffic">
+                         公交：-----------------，地铁：-----------------
+                    </span>
+                </div>
+            </div>
+
+
+            <div class="play-guide-duction">
+                <span>贴士</span>
+                <div class="play-guide-duction-right">
+                    <span id="tips">
+                        武侯祠景区多是以木质结构的，容易起火，请游客朋友在进入景区的同时收起你的烟，里面禁止吸烟。
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!--评论区域-->
+        <div id="comment-region" class="comment">
+            <div class="comment-top">
+                <div class="comment-top-left">
+                    <span>景区评论</span>
+                </div>
+                <div class="viewcomments" id="examinereview">查看评论</div>
+                <div class="comment-top-right" id="observername">
+                    <img th:src="@{/tiles/zoom/comment.png}">
+                </div>
+            </div>
+
+            <div id="outerstyle">
+
+            </div>
+            <!--<template  v-for="item in  comment" v-key="index">-->
+                <!--<div class="comment-text-head-name">-->
+                    <!--<div class="comment-text-head">-->
+                        <!--<img :src="item.avatar">-->
+                    <!--</div>-->
+                    <!--<div class="comment-text-name">-->
+                        <!--<span>{{item.watchaname}}</span>:-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="comment-text-critical">-->
+             <!--<span>-->
+             <!--{{item.observer}}-->
+             <!--</span>-->
+                <!--</div>-->
+                <!--<div class="comment-text-date">-->
+                    <!--<span>{{item.comdate}}</span>-->
+                <!--</div>-->
+            <!--</template>-->
+        </div>
+    </div>
+</div>
+<!--第二模蒙层块样式-->
+<div hidden id="layertwo" class="mongolian-layertwo">
+    <div class="mongolian-layertwo-vertical">
+        <div class="mongolian-layer-textarea">
+            <textarea id="textbox"></textarea>
+        </div>
+        <div class="mongolian-layer-sumbit">
+            <button onclick="submitComments()">提交</button>
+            <button id="deselect">取消</button>
+
+        </div>
+    </div>
+</div>
+<!--第一模块蒙层样式-->
+<div id="layer" hidden class="mongolian-layer">
+    <div class="mongolian-layer-vertical">
+        <div class="rate">
+            <div class="mongolian-layer-vertical-drop" id="showlayer">
+                <img th:src="@{/tiles/zoom/quit.png}">
+            </div>
+        </div>
+
+        <div class="mongolian-layer-vertical-img">
+            <img th:src="@{/tiles/zoom/qingshang.jpg}">
+        </div>
+
+
+        <div class="compere-machine">
+            <div class="compere-letter-left">
+                <img th:src="@{/tiles/zoom/artificial.png}">
+                &nbsp;&nbsp;&nbsp;<span>机器语音</span>
+            </div>
+            <div class="compere-letter-right-alipay-list">
+                <div class="compere-letter-right-pay" onclick="wxPlyList()">微信支付</div>
+                <div class="compere-letter-right-pay" onclick="sweepList()">扫码激活</div>
+            </div>
+        </div>
+
+
+        <div class="compere">
+            <div class="compere-letter">
+                <div class="compere-letter-left">
+                    <img th:src="@{/tiles/zoom/artificial.png}">
+                    &nbsp;&nbsp;&nbsp;<span>人工语音</span>
+                </div>
+            </div>
+            <div class="compere-pull-down">
+                <div class="compere-pull-overflow">
+                    <div class="list-underline-text">
+                        <div class="characters">
+                            <div class="compere-letter-left">
+                                <img th:src="@{/tiles/zoom/figure.png}">
+                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
+                            </div>
+                            <div class="trumpet">
+                                <img th:src="@{/tiles/zoom/trumpet .png}">
+                                <div class="voicepay" onclick="wxPlyList()">购买</div>
+                            </div>
+                        </div>
+                        <div class="characters">
+                            <div class="compere-letter-left">
+                                <img th:src="@{/tiles/zoom/figure.png}">
+                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
+                            </div>
+                            <div class="trumpet">
+                                <img th:src="@{/tiles/zoom/trumpet .png}">
+                                <div class="voicepay" onclick="wxPlyList()">购买</div>
+                            </div>
+                        </div>
+                        <div class="characters">
+                            <div class="compere-letter-left">
+                                <img th:src="@{/tiles/zoom/figure.png}">
+                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
+                            </div>
+                            <div class="trumpet">
+                                <img th:src="@{/tiles/zoom/trumpet .png}">
+                                <div class="voicepay" onclick="wxPlyList()">购买</div>
+                            </div>
+                        </div>
+                        <div class="characters">
+                            <div class="compere-letter-left">
+                                <img th:src="@{/tiles/zoom/figure.png}">
+                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
+                            </div>
+                            <div class="trumpet">
+                                <img th:src="@{/tiles/zoom/trumpet .png}">
+                                <div class="voicepay" onclick="wxPlyList()">购买</div>
+                            </div>
+                        </div>
+                        <div class="characters">
+                            <div class="compere-letter-left">
+                                <img th:src="@{/tiles/zoom/figure.png}">
+                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
+                            </div>
+                            <div class="trumpet">
+                                <img th:src="@{/tiles/zoom/trumpet .png}">
+                                <div class="voicepay" onclick="wxPlyList()">购买</div>
+                            </div>
+                        </div>
+                        <div class="characters">
+                            <div class="compere-letter-left">
+                                <img th:src="@{/tiles/zoom/figure.png}">
+                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
+                            </div>
+                            <div class="trumpet">
+                                <img th:src="@{/tiles/zoom/trumpet .png}">
+                                <div class="voicepay" onclick="wxPlyList()">购买</div>
+                            </div>
+                        </div>
+                        <div class="characters">
+                            <div class="compere-letter-left">
+                                <img th:src="@{/tiles/zoom/figure.png}">
+                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
+                            </div>
+                            <div class="trumpet">
+                                <img th:src="@{/tiles/zoom/trumpet .png}">
+                                <div class="voicepay" onclick="wxPlyList()">购买</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+       <!--<div class="mongolian-layer-pay">-->
+           <!--<div class="mongolian-layer-pay-left">-->
+               <!--<div class="mongolian-layer-pay-top">-->
+                   <!--<div class="mongolian-layer-pay-top-rgb">-->
+                       <!--<span id="provinceMoney">39.90元</span>-->
+                   <!--</div>-->
+                   <!--<div class="mongolian-layer-pay-top-text">-->
+                       <!--<span id="provinceName">四川省包</span>-->
+                   <!--</div>-->
+               <!--</div>-->
+               <!--<div class="mongolian-layer-pay-text">-->
+                   <!--<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>-->
+               <!--</div>-->
+           <!--</div>-->
+            <!--<div class="mongolian-layer-pay-right">-->
+                <!--<div class="mongolian-layer-pay-interface" id="payment">-->
+                    <!--<span>支付</span>-->
+                <!--</div>-->
+            <!--</div>-->
+       <!--</div>-->
+
+        <!--<div class="mongolian-layer-pay">-->
+            <!--<div class="mongolian-layer-pay-left">-->
+                <!--<div class="mongolian-layer-pay-top">-->
+                    <!--<div class="mongolian-layer-pay-top-rgb">-->
+                        <!--<span id="cityMoney">39.90元</span>-->
+                    <!--</div>-->
+                    <!--<div class="mongolian-layer-pay-top-text">-->
+                        <!--<span id="cityName">四川省包</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="mongolian-layer-pay-text">-->
+                    <!--<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="mongolian-layer-pay-right">-->
+                <!--<div class="mongolian-layer-pay-interface">-->
+                    <!--<span>支付</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="mongolian-layer-pay">-->
+            <!--<div class="mongolian-layer-pay-left">-->
+                <!--<div class="mongolian-layer-pay-top">-->
+                    <!--<div class="mongolian-layer-pay-top-rgb">-->
+                        <!--<span id="prices">39.90元</span>-->
+                    <!--</div>-->
+                    <!--<div class="mongolian-layer-pay-top-text">-->
+                        <!--<span></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="mongolian-layer-pay-text">-->
+                    <!--<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="mongolian-layer-pay-right">-->
+                <!--<div class="mongolian-layer-pay-interface">-->
+                    <!--<span>支付</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="mongolian-layer-code" >-->
+            <!--<div class="mongolian-layer-triangle"></div>-->
+            <!--<div class="mongolian-layer-triangle"></div>-->
+            <!--<div class="mongolian-layer-activation" id="layercode">-->
+                <!--<span>激活扫一扫</span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+
+    </div>
+</div>
+
+<!--第三块蒙层样式-->
+<div id="layerthree" hidden class="mongolian-three"></div>
+    <div id="layerscenic"  class="mongolian-rebte ">
+        <div class="mongolian-layerthree-top">
+            <img id="exitanvover" th:src="@{/tiles/zoom/qingshang.jpg}">
+        </div>
+        <div class="mongcheng-bar-test">
+            <div class="mongcheng-scenic-aduio">
+                <div class="attractions-music-style" >
+                <div  class="attractions-music-style-img">
+                    <img th:src="@{/tiles/zoom/suspend.png}" name="sceneryimg" >
+                </div>
+                <div id="attractions-music">
+
+                </div>
+                </div>
+                <div class="attractions-music-text">
+                    <div class="attractions-music-text-duction">
+                        <span id="scenicspotsname">武侯祠介绍</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mongcheng-teaxt-writ">
+                <textarea draggable id="introduce">亚成年大熊猫别墅B区 幼年大熊猫园成都大熊猫繁育研究基地小熊猫1号活动场 小熊猫2号活动场 成都大熊猫繁育研究基地大熊猫育幼区成都大熊猫繁育研究基地幼年大熊猫别墅 成年大熊猫别墅成都大熊猫繁育研究基地大熊猫幼稚园 成都大熊猫繁育研究基地熊猫魅力剧场成都大熊猫繁育研究基地小熊猫产房 大熊猫太阳产房 熊猫厨房 天鹅湖 成都大熊猫生态园旅游博物馆 熊猫科学探秘馆 成都蝴蝶馆成都大熊猫繁育研究基地大熊猫月亮产房 大熊猫一号别墅大熊猫14号别墅 大熊猫二号别墅站</textarea>
+            </div>
+            <div class="mongolian-btn-icon" id="exitanimation">
+                <img  th:src="@{/tiles/zoom/quit.png}" >
+            </div>
+        </div>
+    </div>
+
+
+<input hidden id="southwest" value="">
+<input hidden id="cityId" value="">
+
+<!--景区语音-->
+
+<audio hidden id="audiosmis" src=""></audio>
+<div hidden id="scenicplaypued"></div>
+</body>
+
+</html>
+
+<script type="text/javascript">
+    new Vue({
+        el:"#overall-box",
+        data:{
+//            nowIndex:1,
+            comment:[{
+                avatar:"tiles/zoom/qingshang.jpg",
+                watchaname:"任海林",
+                observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
+                comdate:"2016.02.16"
+            },{
+                avatar:"tiles/zoom/qingshang.jpg",
+                watchaname:"任海林",
+                observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
+                comdate:"2016.02.16"
+            },{
+                avatar:"tiles/zoom/qingshang.jpg",
+                watchaname:"任海林",
+                observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
+                comdate:"2016.02.16"
+            },{
+                avatar:"tiles/zoom/qingshang.jpg",
+                watchaname:"任海林",
+                observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
+                comdate:"2016.02.16"
+            },
+
+            ],
+            displayObject:"display:-webkit-box",
+            scenic:[{
+                scenicimg:"tiles/zoom/qingshang.jpg",
+                scenicnum:"1",
+                sceniclocal:"大门",
+                scenicmight:"详情"
+            },{
+                scenicimg:"tiles/zoom/qingshang.jpg",
+                scenicnum:"2",
+                sceniclocal:"大门",
+                scenicmight:"详情"
+            },{
+                    scenicimg:"tiles/zoom/qingshang.jpg",
+                    scenicnum:"3",
+                    sceniclocal:"大门",
+                    scenicmight:"未解锁"
+            },{
+                    scenicimg:"tiles/zoom/qingshang.jpg",
+                    scenicnum:"4",
+                    sceniclocal:"大门",
+                    scenicmight:"未解锁"
+            },],
+            voice:[{
+                aduioId:"104.05551630.651494",
+                aduiosite:"https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/%E7%A9%BA%E5%B1%B1.wav",
+            },
+                {
+                    aduioId:"104.05485630.651129",
+                    aduiosite:"https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/%E4%BA%9A%E4%B8%81%E7%A8%BB%E5%9F%8E.wav",
+                }
+            ],
+            scenicSpotVOS:[],
+        },
+        methods:{
+            allshow:function(){
+                if(this.displayObject === ""){
+                    this.displayObject = "display:-webkit-box";
+                }else{
+                    this.displayObject = "";
+                }
+            },
+        },
+
+    })
+    $(function(){
+        $("#showmap").addClass("checked");
+        //获取当前页面url中的参数
+        function getUrlParam() {
+            var url = document.location.toString();
+            var arrObj = url.split("?");
+            var result = {};
+            if (arrObj.length > 1) {
+                var arrPara = arrObj[1].split("&");
+                var arr;
+                for (var i = 0; i < arrPara.length; i++) {
+                    arr = arrPara[i].split("=");
+                    result[arr[0]] = arr[1];
+                }
+            }
+            return result;
+        }
+
+        var urlId = getUrlParam();
+        var scenicId = Number(urlId.scenicId);
+          console.log(scenicId);
+
+
+        var request=new Request();
+        var URL =  Headapi('web/v1/scenic/selectById');
+        request.ajax({
+            url:URL,
+            type:'get',
+            data:{
+                scenicId:scenicId
+            },
+            success:function(res){
+                var scenicArray = res.content;
+                coords = scenicArray.coords;
+                $("#coords").val(scenicArray.coords);         //中心角
+                $("#northeast").val(scenicArray.northeast);   //东北角
+                $("#southwest").val(scenicArray.southwest);   //西南角坐标
+                $("#cityId").val(scenicArray.cityId); //城市id
+                $("#address").html(scenicArray.address);   //地理位置
+                $("#traffic").html(scenicArray.traffic); //交通
+                $("#openhours").html(scenicArray.openhours); //开放时间
+                $('span[name = "scenicname"]').html(scenicArray.name+'介绍'); //景区名字介绍
+                $('span[name = "introduce"]').html(scenicArray.introduce); // 景区文字介绍
+                $("#priceString").html(scenicArray.priceString);  //门票
+                $("#tips").html(scenicArray.tips); //贴士
+                $("#vover").attr('src',scenicArray.vover);  //封面地址
+                $("#audiosmis").attr('src',scenicArray.voicePacket); //景区语音介绍
+                var scenicSpotVOS = scenicArray.spotList;
+                var scenichtml = '';
+                for(var i =0;i<scenicSpotVOS.length;i++){
+                    scenichtml += '<div class="list-underline-span">' +
+                            '<div class="list-underline-span-img">' +
+                            '<img src="'+scenicSpotVOS[i].vover+'"></div> ' +
+                            '<div class="list-underline-text-introduction">'+scenicSpotVOS[i].id+'&nbsp;&nbsp;'+scenicSpotVOS[i].name+'</div>' +
+                            '<div class="list-underline-text-introduction-right" onclick="scenicparticulars('+scenicSpotVOS[i].id+')">'+scenicSpotVOS[i].unlocked+'</div></div>'
+                 }
+                $("#list-underline-span").html(scenichtml);
+                // 百度地图操作
+                BaiduMap(scenicArray);
+                console.log(scenicArray);
+                window.localStorage.setItem("scenicArray",JSON.stringify(scenicArray));
+            },
+            error:function(err){
+                console.log(err);
+            }
+        })
+
+    })
+
+
+
+
+    // function getLocation(){
+    //
+    //     if(navigator.geolocation){
+    //         alert("adc");
+    //           //判断是否有这个对象
+    //         navigator.geolocation.watchPosition(function(pos){
+    //             alert("adc"+pos);
+    //             alert("经度："+pos.coords.longitude+ "纬度："+pos.coords.latitude)
+    //         })
+    //     }else{
+    //         console.log("当前系统不支持GPS API")
+    //     }
+    // }
+
+
+// //    显示蒙层
+    $("#purchase").click(function(){
+        $("#layer").show();
+    })
+//    隐藏蒙层
+    $("#showlayer").click(function(){
+        $("#layer").hide();
+    })
+//    显示隐藏来回切换
+   $("#tableabove").click(function(){
+       $("#toplist").toggle();
+   })
+//    隐藏属性
+    $("#tolistunder").click(function(){
+        $("#toplist").hide();
+    })
+
+    //点击显示或者隐藏map地图信息
+    $("#showmap").click(function(){
+        $("#rectangle-allmap").show();
+        $("#scenic-allmap").hide();
+        $("#showmap").addClass("checked");
+        $("#hidemap").removeClass("checked");
+    })
+    $("#hidemap").click(function(){
+        $("#rectangle-allmap").hide();
+        $("#scenic-allmap").show();
+        $("#hidemap").addClass("checked");
+        $("#showmap").removeClass("checked");
+
+    })
+
+    // 提交评论
+    function submitComments(){
+        var request=new Request();
+        var URL =  Headapi('web/v1/comment/addComment');
+        var token = $("#TokenVlaue").val();
+        var scenicId = document.getElementById("thefirst").value;
+        var content = document.getElementById("textbox").value;
+        request.ajax({
+            url: URL,
+            type: 'post',
+            data: {
+                scenicId: scenicId,
+                content:content,
+                token:token
+            },
+            success: function (res) {
+                console.log(res);
+            }
+        })
+    }
+
+    // 查看评论
+    $("#examinereview").click(function () {
+        var request=new Request();
+        var URL =  Headapi('web/v1/comment/comment');
+        var scenicId = document.getElementById("thefirst").value;
+        request.ajax({
+            url: URL,
+            type: 'get',
+            data: {
+                scenicId: scenicId
+            },
+            success: function (res) {
+                var content = res.content;
+                console.log(content);
+                var outerHtml = "";
+                for(var i =0;i<content.length;i++){
+                    outerHtml+=' <div class="comment-text-head-name">' +
+                        '<div class="comment-text-head">' +
+                        '<img src="'+content[i].avatarUrl+'"> </div>' +
+                        '<div class="comment-text-name">'+
+                        '<span>'+content[i].userName+'</span> </div></div>' +
+                        '<div class="comment-text-critical">' +
+                        '<span>'+content[i].content+'</span> </div>'+
+                        ' <div class="comment-text-date">' +
+                        '<span>'+content[i].entryDt+'</span></div>'
+                }
+
+                $("#outerstyle").html(outerHtml);
+            }
+        })
+    })
+
+  //评论的点击事件
+    $("#observername").click(function(){
+        $("#layertwo").show();
+        $("#comment-region").hide();
+    })
+    //推出评论区
+    $("#deselect").click(function(){
+        $("#layertwo").hide();
+        $("#comment-region").show();
+    })
+     //点击机器人语音扫码支付
+    function sweepList(e) {
+
+        var scenicId = document.getElementById("thefirst").value;
+        console.log(scenicId);
+        var path = '/pages/details/details?id=1&scenicId='+ scenicId; //跳转回小程序的页面
+        wxWhether(path);
+    }
+    // 点击机器人语音微信支付跳转小程序
+    function wxPlyList(){
+         var path = '/pages/money/money';
+         wxWhether(path);
+    }
+   // 封装判断是否在小程序方法
+
+    function  wxWhether(path){
+        //    小程序和web界面跳转
+        var smallPro=false;
+        //判断当前页面是否在小程序环境中
+        wx.miniProgram.getEnv(function(res) {
+            console.log(res.miniprogram) // true
+            if(res.miniprogram){
+                smallPro=true;
+            }else{
+                smallPro=false;
+            }
+
+        });
+
+        if(smallPro){
+            wx.miniProgram.navigateTo({
+                url:path,//跳转回小程序的页面
+                success: function(){
+                    console.log('success')
+                },
+                fail: function(){
+                    console.log('fail');
+                },
+
+
+            });
+        }
+    }
+
+//    景点详情弹框样式
+    function scenicparticulars(scenicStopId){
+        $('img[name="sceneryimg"]').attr("src","/tiles/zoom/suspend.png");
+        var request=new Request();
+        var URL =  Headapi('web/v1/scenic/scenicStopById');
+        var scenicStopId = scenicStopId;
+        request.ajax({
+            url: URL,
+            type: 'get',
+            data: {
+                scenicId: 1,
+                scenicStopId:scenicStopId,
+            },
+            success:function(res){
+                var contents = res.content;
+                console.log(contents);
+                var imghtml = "";
+                var lolatitude = strsplit(contents.coords);
+                var lolat =lolatitude[0]+''+lolatitude[1];
+                imghtml+='<div id="exitanaudiosd" onclick="exitanaudios(\''+lolat+'\' )"> </div>';
+                $("#attractions-music").html(imghtml);
+                console.log(lolat);
+                $("#introduce").val(contents.introduce);
+                $("#exitanaudio").attr('src',contents.voicePacket);
+                $("#scenicspotsname").html(contents.name+'介绍');
+
+
+            },
+            error:function(err){
+                console.log(err);
+            }
+
+        })
+        $("#layerthree").show();
+        $("#layerscenic").addClass("scenic-upanimation");
+        $("#layerscenic").removeClass("scenic-downanimation");
+    }
+//    景点退出动画样式
+    $("#exitanimation").click(function(){
+        $("#layerscenic").addClass("scenic-downanimation");
+        $("#layerscenic").removeClass("scenic-upanimation");
+        $("#layerthree").hide();
+    })
+
+//    第一个模板点击播放语音
+    $("#palyaudios").click(function(){
+        var  audiosmis = document.getElementById("audiosmis");
+        var  name = 'img[name="palyaudiosimg"]';
+        var samsungName = 'img[name="sceneryimg"]';
+        var links =  $("#scenicplaypued audio").attr("id");
+        var attractions = document.getElementById(links);
+        musicPlayer(audiosmis,name,attractions,samsungName);
+
+    })
+
+//    第二个模板点击播放语音
+    $("#twoplaymusic").click(function(){
+        var  audiosmis = document.getElementById("audiosmis");
+        var  name = 'img[name="palyaudiosimg"]';
+        var samsungName = 'img[name="sceneryimg"]';
+        var links =  $("#scenicplaypued audio").attr("id");
+        var attractions = document.getElementById(links);
+        musicPlayer(audiosmis,name,attractions,samsungName);
+    })
+
+    //    点击播放景点id
+    function exitanaudios(lolat) {
+        var audiosmis = document.getElementById(lolat);
+        var  attractions = document.getElementById("audiosmis");
+        var name = 'img[name="sceneryimg"]';
+        var samsungName = 'img[name="palyaudiosimg"]';
+        var audioVlaue = document.getElementById(lolat).innerHTML;
+        if(audioVlaue=="true"){
+            musicPlayer(audiosmis,name,attractions,samsungName);
+        }
+
+    }
+    function musicPlayer(audiosmis,name,attractions,samsungName){
+        if(audiosmis.paused){
+            if( attractions.played){
+                var arrayId = getLinkId();
+                for(var i =0;i<arrayId.length;i++){
+                    if(document.getElementById(arrayId[i]).played){
+                        document.getElementById(arrayId[i]).pause();
+                    }
+                }
+                attractions.pause();
+                $(samsungName).attr("src","/tiles/zoom/suspend.png");
+                audiosmis.play();
+                $(name).attr("src","/tiles/zoom/play.png");
+            }
+        }else {
+            audiosmis.pause();
+            $(name).attr("src","/tiles/zoom/suspend.png");
+        }
+        audiosmis.addEventListener('ended', function () {
+            $(name).attr("src", "/tiles/zoom/suspend.png");
+        }, false);
+    }
+    // 点击自动讲解
+    var timer = null;
+    function gethost() {
+     var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
+
+
+            var coords = strsplit(scenicArray.coords);
+            var northeast =strsplit(scenicArray.northeast);
+            var southwest =strsplit(scenicArray.southwest);
+            var sketchUrl = scenicArray.sketchUrl;
+            var spotList = scenicArray.spotList;
+
+            //地图中添加叠加层   104.054483,30.652775
+            var TianAnMen = new BMap.Point(coords[0],coords[1]);
+            // 创建Map实例
+            var map = new BMap.Map("allmap");
+            // 居中放大
+            map.centerAndZoom(TianAnMen, 17);
+
+            // 启用滚轮放大缩小
+            map.enableScrollWheelZoom();
+
+            // 西南角 104.050602,30.649645和东北角 104.057106,30.6562
+            var SW = new BMap.Point(southwest[0],southwest[1]);
+            var NE = new BMap.Point(northeast[0],northeast[1]);
+            groundOverlayOptions = {
+                opacity: 1,
+                displayOnMinLevel: 1,
+                displayOnMaxLevel: 20
+            }
+            // 初始化GroundOverlay
+            var groundOverlay = new BMap.GroundOverlay(new BMap.Bounds(SW, NE), groundOverlayOptions);
+            // 设置GroundOverlay的图片地址
+            groundOverlay.setImageURL(sketchUrl);
+            map.addOverlay(groundOverlay);
+
+
+
+
+
+            // 单击事件
+            groundOverlay.addEventListener('click', function (clickEvent) {
+                // console.log('clickEvent', clickEvent);
+            });
+
+            // 双击事件
+            groundOverlay.addEventListener('dblclick', function (dblclickEvent) {
+                // console.log('dblclickEvent', dblclickEvent);
+            });
+
+            function addGroundOverlay() {
+                // 添加GroundOverlay
+
+            }
+
+            function removeGroundOverlay() {
+                // 移除GroundOverlay
+                map.removeOverlay(groundOverlay);
+            }
+
+          // 标注点
+          var Musichtml = "";
+          for(var i=0;i<spotList.length;i++){
+            console.log(spotList);
+            var lolatitudes = strsplit(spotList[i].coords);
+            var lolat =lolatitudes[0]+''+lolatitudes[1];
+            var lolatitude = strsplit(spotList[i].coords);
+            var point = new BMap.Point(lolatitude[0],lolatitude[1]);
+
+            Musichtml +='<audio hidden id="'+lolat+'" src="'+spotList[i].voicePacket+'">'+spotList[i].state+'</audio>'
+            var phonoshop = spotList[i].phonoshop;
+            // var myIcon = new BMap.Icon(phonoshop, new BMap.Size(23, 25));
+            // {icon:myIcon}
+            marker = new BMap.Marker(point);
+            marker.addEventListener("click",function(e){
+                var clickId = e.currentTarget.point.lng +''+ e.currentTarget.point.lat;
+                var clickIdMusic =  document.getElementById(clickId);
+                var  audiosmis = document.getElementById("audiosmis");
+                var audioVlaue = document.getElementById(clickId).innerHTML;
+
+                if(audioVlaue == "true"){
+                    if(clickIdMusic.paused){
+                        var arrrayId = getLinkId();
+                        for (var i= 0;i<arrrayId.length;i++){
+                            if(document.getElementById(arrrayId[i]).played){
+                                document.getElementById(arrrayId[i]).pause();
+                            }
+                            if(audiosmis.played){
+                                audiosmis.pause();
+                                $('img[name="palyaudiosimg"]').attr("src","/tiles/zoom/suspend.png");
+                            }
+                        }
+                        clickIdMusic.play();
+                    }else {
+                        clickIdMusic.pause();
+                    }
+                }
+            });
+
+            map.getPanes().markerPane.style.zIndex = 500;
+            map.addOverlay(marker);
+        }
+          $("#scenicplaypued").html(Musichtml);
+
+            // //    自定义标注点图标
+            // var pointlist = [
+            //     {
+            //         id:'adc',
+            //         longitude:104.055516,
+            //         latitude:30.651494,
+            //     },
+            //     {   id:'acc',
+            //         longitude:104.054856,
+            //         latitude:30.651129,
+            //     },
+//        {
+//            id:'bbc',
+//            longitude:104.055206,
+//            latitude:30.652764,
+//        },
+//        {
+//            id:'aaa',
+//            longitude:104.053189,
+//            latitude:30.652546,
+//        },
+//        {
+//            id:'abb',
+//            longitude:104.055098,
+//            latitude:30.653234,
+//        },
+//     ]
+
+        //     //判断手机浏览器是否支持定位
+        if(navigator.geolocation) {
+            var geolocation = new BMap.Geolocation(); //创建定位实例
+            geolocation.getCurrentPosition(showLocation, {
+                enableHighAccuracy: true
+            }); //enableHighAccuracy 要求浏览器获取最佳结果
+        } else {
+            map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
+        }
+        var gc = new BMap.Geocoder();//将坐标转换成地址
+
+        //处理定位后的信息
+        function showLocation(r) {
+            if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
+                //              范围匹配
+                var current = new BMap.Point(r.longitude,r.latitude);
+                var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),430,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
+                if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
+                    for(var j=0;j<spotList.length;j++){
+                        var lolatitude = strsplit(spotList[j].coords);
+                        var sceniccircle = new BMap.Circle( new BMap.Point(lolatitude[0],lolatitude[1]),10,{fillColor:"#FFFFFF", strokeWeight: 1,fillOpacity: 0.1, strokeOpacity: 0.1});
+                        if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)){
+                            var scenicId  = lolatitude[0]+''+lolatitude[1];
+                            console.log(scenicId);
+                            document.getElementById(scenicId).play();
+                        }else {
+                            console.log("不在景点圆圈内");
+                        }
+                        map.addOverlay(sceniccircle)
+                    }
+                    timer = setTimeout("gethost()",300000);
+                }else {
+                    alert("不在该景区，不能开启该功能");
+                }
+
+                map.addOverlay(circle);
+                alert(r.longitude);
+                alert(r.latitude);
+                // console.log(r.longitude);
+                // console.log(r.latitude);
+            } else {
+                mui.alert('failed' + this.getStatus()); //定位失败
+            }
+        }
+
+
+
+
+
+
+ }
+
+ // 取消自动讲解
+    function sethost() {
+        var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
+        var spotList  = scenicArray.spotList;
+        for(var i =0; i<spotList.length;i++){
+            var lolatitude = strsplit(spotList[i].coords);
+            var scenicId  = lolatitude[0]+''+lolatitude[1];
+            document.getElementById(scenicId).pause();
+        }
+        clearTimeout(timer);
+
+    }
+
+</script>
+<script type="text/javascript">
+ function BaiduMap(scenicArray){
+     console.log(scenicArray.coords);
+     var coords = strsplit(scenicArray.coords);
+     var northeast =strsplit(scenicArray.northeast);
+     var southwest =strsplit(scenicArray.southwest);
+     var sketchUrl = scenicArray.sketchUrl;
+     var spotList = scenicArray.spotList;
+
+     //地图中添加叠加层   104.054483,30.652775
+        var TianAnMen = new BMap.Point(coords[0],coords[1]);
+    // 创建Map实例
+        var map = new BMap.Map("allmap");
+    // 居中放大
+        map.centerAndZoom(TianAnMen, 17);
+
+    // 启用滚轮放大缩小
+        map.enableScrollWheelZoom();
+
+    // 西南角 104.050602,30.649645和东北角 104.057106,30.6562
+        var SW = new BMap.Point(southwest[0],southwest[1]);
+        var NE = new BMap.Point(northeast[0],northeast[1]);
+     groundOverlayOptions = {
+            opacity: 1,
+            displayOnMinLevel: 1,
+            displayOnMaxLevel: 20
+        }
+    // 初始化GroundOverlay
+    var groundOverlay = new BMap.GroundOverlay(new BMap.Bounds(SW, NE), groundOverlayOptions);
+    // 设置GroundOverlay的图片地址
+    groundOverlay.setImageURL(sketchUrl);
+    map.addOverlay(groundOverlay);
+
+
+     function circulation() {
+         //判断手机浏览器是否支持定位
+         if(navigator.geolocation) {
+             var geolocation = new BMap.Geolocation(); //创建定位实例
+             geolocation.getCurrentPosition(showLocation, {
+                 enableHighAccuracy: true
+             }); //enableHighAccuracy 要求浏览器获取最佳结果
+         } else {
+             map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
+         }
+         var gc = new BMap.Geocoder();//将坐标转换成地址
+
+         //处理定位后的信息
+         function showLocation(r) {
+             if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
+                 //新建中心点 并将地图中心移动过去
+                 var centerPoint = new BMap.Point(r.longitude, r.latitude);
+                console.log(r.longitude);
+                 console.log(r.latitude);
+             } else {
+                 mui.alert('failed' + this.getStatus()); //定位失败
+             }
+         }
+     }
+
+     // 单击事件
+    groundOverlay.addEventListener('click', function (clickEvent) {
+        // console.log('clickEvent', clickEvent);
+    });
+
+    // 双击事件
+    groundOverlay.addEventListener('dblclick', function (dblclickEvent) {
+        // console.log('dblclickEvent', dblclickEvent);
+    });
+
+    function addGroundOverlay() {
+        // 添加GroundOverlay
+
+    }
+
+    function removeGroundOverlay() {
+        // 移除GroundOverlay
+        map.removeOverlay(groundOverlay);
+    }
+
+
+    // //    自定义标注点图标
+    // var pointlist = [
+    //     {
+    //         id:'adc',
+    //         longitude:104.055516,
+    //         latitude:30.651494,
+    //     },
+    //     {   id:'acc',
+    //         longitude:104.054856,
+    //         latitude:30.651129,
+    //     },
+//        {
+//            id:'bbc',
+//            longitude:104.055206,
+//            latitude:30.652764,
+//        },
+//        {
+//            id:'aaa',
+//            longitude:104.053189,
+//            latitude:30.652546,
+//        },
+//        {
+//            id:'abb',
+//            longitude:104.055098,
+//            latitude:30.653234,
+//        },
+//     ]
+      var Musichtml = "";
+      for(var i=0;i<spotList.length;i++){
+          console.log(spotList);
+          var lolatitudes = strsplit(spotList[i].coords);
+          var lolat =lolatitudes[0]+''+lolatitudes[1];
+          var lolatitude = strsplit(spotList[i].coords);
+          var point = new BMap.Point(lolatitude[0],lolatitude[1]);
+
+          Musichtml +='<audio hidden id="'+lolat+'" src="'+spotList[i].voicePacket+'">'+spotList[i].state+'</audio>'
+          var phonoshop = spotList[i].phonoshop;
+          // var myIcon = new BMap.Icon(phonoshop, new BMap.Size(23, 25));
+          // {icon:myIcon}
+          marker = new BMap.Marker(point);
+          marker.addEventListener("click",function(e){
+              var clickId = e.currentTarget.point.lng +''+ e.currentTarget.point.lat;
+              var clickIdMusic =  document.getElementById(clickId);
+              var  audiosmis = document.getElementById("audiosmis");
+              var audioVlaue = document.getElementById(clickId).innerHTML;
+
+              if(audioVlaue == "true"){
+              if(clickIdMusic.paused){
+                   var arrrayId = getLinkId();
+                   for (var i= 0;i<arrrayId.length;i++){
+                      if(document.getElementById(arrrayId[i]).played){
+                          document.getElementById(arrrayId[i]).pause();
+                      }
+                      if(audiosmis.played){
+                          audiosmis.pause();
+                         $('img[name="palyaudiosimg"]').attr("src","/tiles/zoom/suspend.png");
+                      }
+                  }
+                  clickIdMusic.play();
+              }else {
+                  clickIdMusic.pause();
+                }
+              }
+              // var lng= e.currentTarget.point.lng;
+              // var lat = e.currentTarget.point.lat;
+
+              // console.log(clickId);
+              // console.log(typeof clickId);
+              // var coords = lng+''+','+lat;
+              // var request=new Request();
+              // var URL =  Headapi('web/v1/scenic/latlogByStop');
+              // request.ajax({
+              //     url: URL,
+              //     type: 'get',
+              //     data: {
+              //         coords:coords
+              //     },
+              //     success: function (res) {
+              //         console.log(res);
+              //         var contents = res.content;
+              //         var html = "";
+              //         html +='<audio  hidden id="'+clickId+'" src="'+contents.voicePacket+'"></audio>';
+              //         $("#scenicplaypued").html(html);
+              //     },
+              //     error:function(err){
+              //         console.log(err);
+              //     },
+
+              // })
+
+              // var links = $("#scenicplaypued audio").attr("id");
+              // var  audiosmis = document.getElementById(links);
+              // audiosmis.play();
+          });
+
+        map.getPanes().markerPane.style.zIndex = 500;
+        map.addOverlay(marker);
+    }
+      $("#scenicplaypued").html(Musichtml);
+
+     //     //重复执行某个方法
+
+         // var t2 = window.setInterval("circulation()",3000);
+
+         //去掉定时器的方法
+
+         // window.clearInterval(t1);
+   // return circleMusic;
+ }
+ function getLinkId() {
+     var links = $("#scenicplaypued audio");
+     var links_id = [];
+     for(var i=0;i<links.length;i++){
+         links_id.push($(links[i]).attr('id'));
+     }
+     return links_id;
+ }
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</script>

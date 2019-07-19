@@ -1,0 +1,16 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: utf-8
+    servlet:
+      content-type: text/html
+    cache: false
+
+server:
+  ssl:
+    key-store: classpath:2523869_www.qiouou.com.pfx
+    key-store-password: 0AUwQP1o
+    keyStoreType: PKCS12
+  port: 443
