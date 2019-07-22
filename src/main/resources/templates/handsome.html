@@ -48,7 +48,7 @@
     <div id="rectangle-allmap">
         <div id="allmap" ></div>
             <div class="map-use-tools">
-              <div class="map-buy"id="purchase">立即购买</div>
+              <div class="map-buy" onclick="purchase()">立即购买</div>
                 <div class="map-activation" id="activate">
                  <div class="map-activation-img">
                      <img th:src="@{/tiles/zoom/scancode.png}">
@@ -75,7 +75,7 @@
                 </div>
                 <div class="map-activation">
                     <div class="map-activation-img">
-                        <img th:src="@{/tiles/zoom/automatic.png}">
+                        <img th:src="@{/tiles/zoom/autoexplain.png}">
                     </div>
                     <div class="map-activation-explain" onclick="sethost()">
                         <span>取消讲解</span>
@@ -264,191 +264,191 @@
     </div>
 </div>
 <!--第一模块蒙层样式-->
-<div id="layer" hidden class="mongolian-layer">
-    <div class="mongolian-layer-vertical">
-        <div class="rate">
-            <div class="mongolian-layer-vertical-drop" id="showlayer">
-                <img th:src="@{/tiles/zoom/quit.png}">
-            </div>
-        </div>
-
-        <div class="mongolian-layer-vertical-img">
-            <img th:src="@{/tiles/zoom/qingshang.jpg}">
-        </div>
-
-
-        <div class="compere-machine">
-            <div class="compere-letter-left">
-                <img th:src="@{/tiles/zoom/artificial.png}">
-                &nbsp;&nbsp;&nbsp;<span>机器语音</span>
-            </div>
-            <div class="compere-letter-right-alipay-list">
-                <div class="compere-letter-right-pay" onclick="wxPlyList()">微信支付</div>
-                <div class="compere-letter-right-pay" onclick="sweepList()">扫码激活</div>
-            </div>
-        </div>
-
-
-        <div class="compere">
-            <div class="compere-letter">
-                <div class="compere-letter-left">
-                    <img th:src="@{/tiles/zoom/artificial.png}">
-                    &nbsp;&nbsp;&nbsp;<span>人工语音</span>
-                </div>
-            </div>
-            <div class="compere-pull-down">
-                <div class="compere-pull-overflow">
-                    <div class="list-underline-text">
-                        <div class="characters">
-                            <div class="compere-letter-left">
-                                <img th:src="@{/tiles/zoom/figure.png}">
-                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
-                            </div>
-                            <div class="trumpet">
-                                <img th:src="@{/tiles/zoom/trumpet .png}">
-                                <div class="voicepay" onclick="wxPlyList()">购买</div>
-                            </div>
-                        </div>
-                        <div class="characters">
-                            <div class="compere-letter-left">
-                                <img th:src="@{/tiles/zoom/figure.png}">
-                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
-                            </div>
-                            <div class="trumpet">
-                                <img th:src="@{/tiles/zoom/trumpet .png}">
-                                <div class="voicepay" onclick="wxPlyList()">购买</div>
-                            </div>
-                        </div>
-                        <div class="characters">
-                            <div class="compere-letter-left">
-                                <img th:src="@{/tiles/zoom/figure.png}">
-                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
-                            </div>
-                            <div class="trumpet">
-                                <img th:src="@{/tiles/zoom/trumpet .png}">
-                                <div class="voicepay" onclick="wxPlyList()">购买</div>
-                            </div>
-                        </div>
-                        <div class="characters">
-                            <div class="compere-letter-left">
-                                <img th:src="@{/tiles/zoom/figure.png}">
-                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
-                            </div>
-                            <div class="trumpet">
-                                <img th:src="@{/tiles/zoom/trumpet .png}">
-                                <div class="voicepay" onclick="wxPlyList()">购买</div>
-                            </div>
-                        </div>
-                        <div class="characters">
-                            <div class="compere-letter-left">
-                                <img th:src="@{/tiles/zoom/figure.png}">
-                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
-                            </div>
-                            <div class="trumpet">
-                                <img th:src="@{/tiles/zoom/trumpet .png}">
-                                <div class="voicepay" onclick="wxPlyList()">购买</div>
-                            </div>
-                        </div>
-                        <div class="characters">
-                            <div class="compere-letter-left">
-                                <img th:src="@{/tiles/zoom/figure.png}">
-                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
-                            </div>
-                            <div class="trumpet">
-                                <img th:src="@{/tiles/zoom/trumpet .png}">
-                                <div class="voicepay" onclick="wxPlyList()">购买</div>
-                            </div>
-                        </div>
-                        <div class="characters">
-                            <div class="compere-letter-left">
-                                <img th:src="@{/tiles/zoom/figure.png}">
-                                &nbsp;&nbsp;&nbsp;<span>人工语音</span>
-                            </div>
-                            <div class="trumpet">
-                                <img th:src="@{/tiles/zoom/trumpet .png}">
-                                <div class="voicepay" onclick="wxPlyList()">购买</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-       <!--<div class="mongolian-layer-pay">-->
-           <!--<div class="mongolian-layer-pay-left">-->
-               <!--<div class="mongolian-layer-pay-top">-->
-                   <!--<div class="mongolian-layer-pay-top-rgb">-->
-                       <!--<span id="provinceMoney">39.90元</span>-->
-                   <!--</div>-->
-                   <!--<div class="mongolian-layer-pay-top-text">-->
-                       <!--<span id="provinceName">四川省包</span>-->
-                   <!--</div>-->
-               <!--</div>-->
-               <!--<div class="mongolian-layer-pay-text">-->
-                   <!--<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>-->
-               <!--</div>-->
-           <!--</div>-->
-            <!--<div class="mongolian-layer-pay-right">-->
-                <!--<div class="mongolian-layer-pay-interface" id="payment">-->
-                    <!--<span>支付</span>-->
-                <!--</div>-->
-            <!--</div>-->
-       <!--</div>-->
-
-        <!--<div class="mongolian-layer-pay">-->
-            <!--<div class="mongolian-layer-pay-left">-->
-                <!--<div class="mongolian-layer-pay-top">-->
-                    <!--<div class="mongolian-layer-pay-top-rgb">-->
-                        <!--<span id="cityMoney">39.90元</span>-->
-                    <!--</div>-->
-                    <!--<div class="mongolian-layer-pay-top-text">-->
-                        <!--<span id="cityName">四川省包</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="mongolian-layer-pay-text">-->
-                    <!--<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="mongolian-layer-pay-right">-->
-                <!--<div class="mongolian-layer-pay-interface">-->
-                    <!--<span>支付</span>-->
-                <!--</div>-->
+<!--<div id="layer" hidden class="mongolian-layer">-->
+    <!--<div class="mongolian-layer-vertical">-->
+        <!--<div class="rate">-->
+            <!--<div class="mongolian-layer-vertical-drop" id="showlayer">-->
+                <!--<img th:src="@{/tiles/zoom/quit.png}">-->
             <!--</div>-->
         <!--</div>-->
 
-        <!--<div class="mongolian-layer-pay">-->
-            <!--<div class="mongolian-layer-pay-left">-->
-                <!--<div class="mongolian-layer-pay-top">-->
-                    <!--<div class="mongolian-layer-pay-top-rgb">-->
-                        <!--<span id="prices">39.90元</span>-->
-                    <!--</div>-->
-                    <!--<div class="mongolian-layer-pay-top-text">-->
-                        <!--<span></span>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="mongolian-layer-pay-text">-->
-                    <!--<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="mongolian-layer-pay-right">-->
-                <!--<div class="mongolian-layer-pay-interface">-->
-                    <!--<span>支付</span>-->
-                <!--</div>-->
-            <!--</div>-->
+        <!--<div class="mongolian-layer-vertical-img">-->
+            <!--<img th:src="@{/tiles/zoom/qingshang.jpg}">-->
         <!--</div>-->
 
-        <!--<div class="mongolian-layer-code" >-->
-            <!--<div class="mongolian-layer-triangle"></div>-->
-            <!--<div class="mongolian-layer-triangle"></div>-->
-            <!--<div class="mongolian-layer-activation" id="layercode">-->
-                <!--<span>激活扫一扫</span>-->
+
+        <!--<div class="compere-machine">-->
+            <!--<div class="compere-letter-left">-->
+                <!--<img th:src="@{/tiles/zoom/artificial.png}">-->
+                <!--&nbsp;&nbsp;&nbsp;<span>机器语音</span>-->
+            <!--</div>-->
+            <!--<div class="compere-letter-right-alipay-list">-->
+                <!--<div class="compere-letter-right-pay" onclick="wxPlyList()">微信支付</div>-->
+                <!--<div class="compere-letter-right-pay" onclick="sweepList()">扫码激活</div>-->
             <!--</div>-->
         <!--</div>-->
 
 
+        <!--<div class="compere">-->
+            <!--<div class="compere-letter">-->
+                <!--<div class="compere-letter-left">-->
+                    <!--<img th:src="@{/tiles/zoom/artificial.png}">-->
+                    <!--&nbsp;&nbsp;&nbsp;<span>人工语音</span>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="compere-pull-down">-->
+                <!--<div class="compere-pull-overflow">-->
+                    <!--<div class="list-underline-text">-->
+                        <!--<div class="characters">-->
+                            <!--<div class="compere-letter-left">-->
+                                <!--<img th:src="@{/tiles/zoom/figure.png}">-->
+                                <!--&nbsp;&nbsp;&nbsp;<span>人工语音</span>-->
+                            <!--</div>-->
+                            <!--<div class="trumpet">-->
+                                <!--<img th:src="@{/tiles/zoom/trumpet .png}">-->
+                                <!--<div class="voicepay" onclick="wxPlyList()">购买</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="characters">-->
+                            <!--<div class="compere-letter-left">-->
+                                <!--<img th:src="@{/tiles/zoom/figure.png}">-->
+                                <!--&nbsp;&nbsp;&nbsp;<span>人工语音</span>-->
+                            <!--</div>-->
+                            <!--<div class="trumpet">-->
+                                <!--<img th:src="@{/tiles/zoom/trumpet .png}">-->
+                                <!--<div class="voicepay" onclick="wxPlyList()">购买</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="characters">-->
+                            <!--<div class="compere-letter-left">-->
+                                <!--<img th:src="@{/tiles/zoom/figure.png}">-->
+                                <!--&nbsp;&nbsp;&nbsp;<span>人工语音</span>-->
+                            <!--</div>-->
+                            <!--<div class="trumpet">-->
+                                <!--<img th:src="@{/tiles/zoom/trumpet .png}">-->
+                                <!--<div class="voicepay" onclick="wxPlyList()">购买</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="characters">-->
+                            <!--<div class="compere-letter-left">-->
+                                <!--<img th:src="@{/tiles/zoom/figure.png}">-->
+                                <!--&nbsp;&nbsp;&nbsp;<span>人工语音</span>-->
+                            <!--</div>-->
+                            <!--<div class="trumpet">-->
+                                <!--<img th:src="@{/tiles/zoom/trumpet .png}">-->
+                                <!--<div class="voicepay" onclick="wxPlyList()">购买</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="characters">-->
+                            <!--<div class="compere-letter-left">-->
+                                <!--<img th:src="@{/tiles/zoom/figure.png}">-->
+                                <!--&nbsp;&nbsp;&nbsp;<span>人工语音</span>-->
+                            <!--</div>-->
+                            <!--<div class="trumpet">-->
+                                <!--<img th:src="@{/tiles/zoom/trumpet .png}">-->
+                                <!--<div class="voicepay" onclick="wxPlyList()">购买</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="characters">-->
+                            <!--<div class="compere-letter-left">-->
+                                <!--<img th:src="@{/tiles/zoom/figure.png}">-->
+                                <!--&nbsp;&nbsp;&nbsp;<span>人工语音</span>-->
+                            <!--</div>-->
+                            <!--<div class="trumpet">-->
+                                <!--<img th:src="@{/tiles/zoom/trumpet .png}">-->
+                                <!--<div class="voicepay" onclick="wxPlyList()">购买</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="characters">-->
+                            <!--<div class="compere-letter-left">-->
+                                <!--<img th:src="@{/tiles/zoom/figure.png}">-->
+                                <!--&nbsp;&nbsp;&nbsp;<span>人工语音</span>-->
+                            <!--</div>-->
+                            <!--<div class="trumpet">-->
+                                <!--<img th:src="@{/tiles/zoom/trumpet .png}">-->
+                                <!--<div class="voicepay" onclick="wxPlyList()">购买</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
-    </div>
-</div>
+        <!--</div>-->
+       <!--&lt;!&ndash;<div class="mongolian-layer-pay">&ndash;&gt;-->
+           <!--&lt;!&ndash;<div class="mongolian-layer-pay-left">&ndash;&gt;-->
+               <!--&lt;!&ndash;<div class="mongolian-layer-pay-top">&ndash;&gt;-->
+                   <!--&lt;!&ndash;<div class="mongolian-layer-pay-top-rgb">&ndash;&gt;-->
+                       <!--&lt;!&ndash;<span id="provinceMoney">39.90元</span>&ndash;&gt;-->
+                   <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                   <!--&lt;!&ndash;<div class="mongolian-layer-pay-top-text">&ndash;&gt;-->
+                       <!--&lt;!&ndash;<span id="provinceName">四川省包</span>&ndash;&gt;-->
+                   <!--&lt;!&ndash;</div>&ndash;&gt;-->
+               <!--&lt;!&ndash;</div>&ndash;&gt;-->
+               <!--&lt;!&ndash;<div class="mongolian-layer-pay-text">&ndash;&gt;-->
+                   <!--&lt;!&ndash;<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>&ndash;&gt;-->
+               <!--&lt;!&ndash;</div>&ndash;&gt;-->
+           <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mongolian-layer-pay-right">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="mongolian-layer-pay-interface" id="payment">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span>支付</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+       <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<div class="mongolian-layer-pay">&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mongolian-layer-pay-left">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="mongolian-layer-pay-top">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="mongolian-layer-pay-top-rgb">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span id="cityMoney">39.90元</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="mongolian-layer-pay-top-text">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span id="cityName">四川省包</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="mongolian-layer-pay-text">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mongolian-layer-pay-right">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="mongolian-layer-pay-interface">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span>支付</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<div class="mongolian-layer-pay">&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mongolian-layer-pay-left">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="mongolian-layer-pay-top">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="mongolian-layer-pay-top-rgb">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span id="prices">39.90元</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="mongolian-layer-pay-top-text">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="mongolian-layer-pay-text">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span>悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mongolian-layer-pay-right">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="mongolian-layer-pay-interface">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span>支付</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<div class="mongolian-layer-code" >&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mongolian-layer-triangle"></div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mongolian-layer-triangle"></div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mongolian-layer-activation" id="layercode">&ndash;&gt;-->
+                <!--&lt;!&ndash;<span>激活扫一扫</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+
+    <!--</div>-->
+<!--</div>-->
 
 <!--第三块蒙层样式-->
 <div id="layerthree" hidden class="mongolian-three"></div>
@@ -494,77 +494,77 @@
 </html>
 
 <script type="text/javascript">
-    new Vue({
-        el:"#overall-box",
-        data:{
-//            nowIndex:1,
-            comment:[{
-                avatar:"tiles/zoom/qingshang.jpg",
-                watchaname:"任海林",
-                observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
-                comdate:"2016.02.16"
-            },{
-                avatar:"tiles/zoom/qingshang.jpg",
-                watchaname:"任海林",
-                observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
-                comdate:"2016.02.16"
-            },{
-                avatar:"tiles/zoom/qingshang.jpg",
-                watchaname:"任海林",
-                observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
-                comdate:"2016.02.16"
-            },{
-                avatar:"tiles/zoom/qingshang.jpg",
-                watchaname:"任海林",
-                observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
-                comdate:"2016.02.16"
-            },
-
-            ],
-            displayObject:"display:-webkit-box",
-            scenic:[{
-                scenicimg:"tiles/zoom/qingshang.jpg",
-                scenicnum:"1",
-                sceniclocal:"大门",
-                scenicmight:"详情"
-            },{
-                scenicimg:"tiles/zoom/qingshang.jpg",
-                scenicnum:"2",
-                sceniclocal:"大门",
-                scenicmight:"详情"
-            },{
-                    scenicimg:"tiles/zoom/qingshang.jpg",
-                    scenicnum:"3",
-                    sceniclocal:"大门",
-                    scenicmight:"未解锁"
-            },{
-                    scenicimg:"tiles/zoom/qingshang.jpg",
-                    scenicnum:"4",
-                    sceniclocal:"大门",
-                    scenicmight:"未解锁"
-            },],
-            voice:[{
-                aduioId:"104.05551630.651494",
-                aduiosite:"https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/%E7%A9%BA%E5%B1%B1.wav",
-            },
-                {
-                    aduioId:"104.05485630.651129",
-                    aduiosite:"https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/%E4%BA%9A%E4%B8%81%E7%A8%BB%E5%9F%8E.wav",
-                }
-            ],
-            scenicSpotVOS:[],
-        },
-        methods:{
-            allshow:function(){
-                if(this.displayObject === ""){
-                    this.displayObject = "display:-webkit-box";
-                }else{
-                    this.displayObject = "";
-                }
-            },
-        },
-
-    })
+//     new Vue({
+//         el:"#overall-box",
+//         data:{
+// //            nowIndex:1,
+//             comment:[{
+//                 avatar:"tiles/zoom/qingshang.jpg",
+//                 watchaname:"任海林",
+//                 observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
+//                 comdate:"2016.02.16"
+//             },{
+//                 avatar:"tiles/zoom/qingshang.jpg",
+//                 watchaname:"任海林",
+//                 observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
+//                 comdate:"2016.02.16"
+//             },{
+//                 avatar:"tiles/zoom/qingshang.jpg",
+//                 watchaname:"任海林",
+//                 observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
+//                 comdate:"2016.02.16"
+//             },{
+//                 avatar:"tiles/zoom/qingshang.jpg",
+//                 watchaname:"任海林",
+//                 observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
+//                 comdate:"2016.02.16"
+//             },
+//
+//             ],
+//             displayObject:"display:-webkit-box",
+//             scenic:[{
+//                 scenicimg:"tiles/zoom/qingshang.jpg",
+//                 scenicnum:"1",
+//                 sceniclocal:"大门",
+//                 scenicmight:"详情"
+//             },{
+//                 scenicimg:"tiles/zoom/qingshang.jpg",
+//                 scenicnum:"2",
+//                 sceniclocal:"大门",
+//                 scenicmight:"详情"
+//             },{
+//                     scenicimg:"tiles/zoom/qingshang.jpg",
+//                     scenicnum:"3",
+//                     sceniclocal:"大门",
+//                     scenicmight:"未解锁"
+//             },{
+//                     scenicimg:"tiles/zoom/qingshang.jpg",
+//                     scenicnum:"4",
+//                     sceniclocal:"大门",
+//                     scenicmight:"未解锁"
+//             },],
+//             voice:[{
+//                 aduioId:"104.05551630.651494",
+//                 aduiosite:"https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/%E7%A9%BA%E5%B1%B1.wav",
+//             },
+//                 {
+//                     aduioId:"104.05485630.651129",
+//                     aduiosite:"https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/%E4%BA%9A%E4%B8%81%E7%A8%BB%E5%9F%8E.wav",
+//                 }
+//             ],
+//             scenicSpotVOS:[],
+//         },
+//         methods:{
+//             allshow:function(){
+//                 if(this.displayObject === ""){
+//                     this.displayObject = "display:-webkit-box";
+//                 }else{
+//                     this.displayObject = "";
+//                 }
+//             },
+//         },
+//
+//     })
     $(function(){
         $("#showmap").addClass("checked");
         //获取当前页面url中的参数
@@ -654,14 +654,14 @@
     // }
 
 
-// //    显示蒙层
-    $("#purchase").click(function(){
-        $("#layer").show();
-    })
-//    隐藏蒙层
-    $("#showlayer").click(function(){
-        $("#layer").hide();
-    })
+// // //    显示蒙层
+//     $("#purchase").click(function(){
+//         $("#layer").show();
+//     })
+// //    隐藏蒙层
+//     $("#showlayer").click(function(){
+//         $("#layer").hide();
+//     })
 //    显示隐藏来回切换
    $("#tableabove").click(function(){
        $("#toplist").toggle();
@@ -764,8 +764,14 @@
         wxWhether(path);
     }
     // 点击机器人语音微信支付跳转小程序
-    function wxPlyList(){
-         var path = '/pages/money/money';
+    function purchase(){
+         var scenicId = $("#thefirst").val();
+         if(isEmpty(scenicId)){
+             var path = '/pages/money/money?scenicId='+scenicId;
+         }else {
+             var path = '/pages/money/money';
+         }
+
          wxWhether(path);
     }
    // 封装判断是否在小程序方法
@@ -797,6 +803,12 @@
 
             });
         }
+    }
+     // 页面销毁返回上级
+    window.onunload = function () {
+        wx.miniProgram.navigateBack({
+            delat:2
+        })
     }
 
 //    景点详情弹框样式
