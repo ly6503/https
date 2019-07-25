@@ -48,7 +48,7 @@
     <div id="rectangle-allmap">
         <div id="allmap" ></div>
             <div class="map-use-tools">
-              <div class="map-buy" onclick="purchase()">立即购买</div>
+              <div class="map-buy" id="mapBuyPur"  onclick="purchase()" hidden>立即购买</div>
                 <div class="map-activation" id="activate">
                  <div class="map-activation-img">
                      <img th:src="@{/tiles/zoom/scancode.png}">
@@ -585,7 +585,9 @@
 
         var urlId = getUrlParam();
         var scenicId = Number(urlId.scenicId);
+        var token = urlId.token;
           console.log(scenicId);
+          console.log(typeof token);
 
 
         var request=new Request();
@@ -594,7 +596,8 @@
             url:URL,
             type:'get',
             data:{
-                scenicId:scenicId
+                scenicId:scenicId,
+                token:token
             },
             success:function(res){
                 console.log(res);
@@ -624,7 +627,12 @@
                  }
                 $("#list-underline-span").html(scenichtml);
                 // 百度地图操作
-
+                //  判断是否购买
+                var scenicState = scenicArray.scenicState;
+                console.log(scenicState);
+                if(scenicState){
+                    $("#mapBuyPur").show();
+                }
                 BaiduMap(scenicArray);
                 console.log(scenicArray);
                 window.localStorage.setItem("scenicArray",JSON.stringify(scenicArray));
@@ -1016,34 +1024,10 @@
         }
           $("#scenicplaypued").html(Musichtml);
 
-            // //    自定义标注点图标
-            // var pointlist = [
-            //     {
-            //         id:'adc',
-            //         longitude:104.055516,
-            //         latitude:30.651494,
-            //     },
-            //     {   id:'acc',
-            //         longitude:104.054856,
-            //         latitude:30.651129,
-            //     },
-//        {
-//            id:'bbc',
-//            longitude:104.055206,
-//            latitude:30.652764,
-//        },
-//        {
-//            id:'aaa',
-//            longitude:104.053189,
-//            latitude:30.652546,
-//        },
-//        {
-//            id:'abb',
-//            longitude:104.055098,
-//            latitude:30.653234,
-//        },
-//     ]
+//         是否该买该景区
+        var scenicState = scenicArray.scenicState;
 
+        if(scenicState){
         //     //判断手机浏览器是否支持定位
         if(navigator.geolocation) {
             var geolocation = new BMap.Geolocation(); //创建定位实例
@@ -1056,18 +1040,20 @@
         var gc = new BMap.Geocoder();//将坐标转换成地址
 
         //处理定位后的信息
+
+        var radius = scenicArray.radius;
+
         function showLocation(r) {
             if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
                 //              范围匹配
                 var current = new BMap.Point(r.longitude,r.latitude);
-                var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),430,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
+                var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
                 if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
                     for(var j=0;j<spotList.length;j++){
                         var lolatitude = strsplit(spotList[j].coords);
                         var sceniccircle = new BMap.Circle( new BMap.Point(lolatitude[0],lolatitude[1]),20,{fillColor:"#FFFFFF", strokeWeight: 1,fillOpacity: 0.1, strokeOpacity: 0.1});
                         if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)){
                             var scenicId  = lolatitude[0]+''+lolatitude[1];
-                            console.log(scenicId);
                             document.getElementById(scenicId).play();
                         }else {
                             alert("不在景点 "+spotList[j].name+" 圆圈内");
@@ -1080,14 +1066,16 @@
                 }
 
                 map.addOverlay(circle);
-                alert(r.longitude+","+r.latitude);
+                // alert(r.longitude+","+r.latitude);
                 // console.log(r.longitude);
                 // console.log(r.latitude);
             } else {
                 mui.alert('failed' + this.getStatus()); //定位失败
             }
         }
-
+        }else {
+            alert("暂未购买该功能");
+        }
 
 
 
@@ -1142,31 +1130,6 @@
     groundOverlay.setImageURL(sketchUrl);
     map.addOverlay(groundOverlay);
 
-
-     function circulation() {
-         //判断手机浏览器是否支持定位
-         if(navigator.geolocation) {
-             var geolocation = new BMap.Geolocation(); //创建定位实例
-             geolocation.getCurrentPosition(showLocation, {
-                 enableHighAccuracy: true
-             }); //enableHighAccuracy 要求浏览器获取最佳结果
-         } else {
-             map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
-         }
-         var gc = new BMap.Geocoder();//将坐标转换成地址
-
-         //处理定位后的信息
-         function showLocation(r) {
-             if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
-                 //新建中心点 并将地图中心移动过去
-                 var centerPoint = new BMap.Point(r.longitude, r.latitude);
-                console.log(r.longitude);
-                 console.log(r.latitude);
-             } else {
-                 mui.alert('failed' + this.getStatus()); //定位失败
-             }
-         }
-     }
 
      // 单击事件
     groundOverlay.addEventListener('click', function (clickEvent) {
