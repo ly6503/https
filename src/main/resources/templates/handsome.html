@@ -48,7 +48,7 @@
     <div id="rectangle-allmap">
         <div id="allmap" ></div>
             <div class="map-use-tools">
-              <div class="map-buy" id="mapBuyPur"  onclick="purchase()" hidden>立即购买</div>
+              <div    class="map-buy" id="mapBuyPur"  onclick="purchase()" >立即购买</div>
                 <div class="map-activation" id="activate">
                  <div class="map-activation-img">
                      <img th:src="@{/tiles/zoom/scancode.png}">
@@ -631,6 +631,8 @@
                 var scenicState = scenicArray.scenicState;
                 console.log(scenicState);
                 if(scenicState){
+                    $("#mapBuyPur").hide();
+                }else {
                     $("#mapBuyPur").show();
                 }
                 BaiduMap(scenicArray);
@@ -703,7 +705,7 @@
         var content = document.getElementById("textbox").value;
         request.ajax({
             url: URL,
-            type: 'post',
+            type: 'get',
             data: {
                 scenicId: scenicId,
                 content:content,
@@ -711,6 +713,8 @@
             },
             success: function (res) {
                 console.log(res);
+                $("#layertwo").hide();
+                $("#comment-region").show();
             }
         })
     }
@@ -845,6 +849,7 @@
                 console.log(lolat);
                 $("#introduce").val(contents.introduce);
                 $("#exitanaudio").attr('src',contents.voicePacket);
+                $("#exitanvover").attr('src',contents.vover);
                 $("#scenicspotsname").html(contents.name+'介绍');
 
 
