@@ -39,16 +39,16 @@
 <input type="hidden" id="TokenVlaue" th:value="${token}">
 <div id="overall-box">
 <div id="tab">
-<ul id="taboff">
-    <li class="off" id="showmap" >电子导游</li>
-    <li class="off" id="hidemap">景点信息</li>
-</ul>
+
+    <div class="offes" ><span class="off" id="showmap">电子导游</span></div>
+    <div class="offes" ><span class="off" id="hidemap">景点信息</span></div>
+
 </div>
     <!--//第一个模块样式-->
     <div id="rectangle-allmap">
         <div id="allmap" ></div>
             <div class="map-use-tools">
-              <div    class="map-buy" id="mapBuyPur"  onclick="purchase()" >立即购买</div>
+              <div class="map-buy" id="mapBuyPur"  onclick="purchase()" >立即购买</div>
                 <div class="map-activation" id="activate">
                  <div class="map-activation-img">
                      <img th:src="@{/tiles/zoom/scancode.png}">
@@ -94,9 +94,9 @@
           <div class="bottom-column-video">
               <div class="bottom-column-video-left">
                   <div class="bottom-column-video-brief">
-                      <div class="bottom-column-video-top"><span name="scenicname">武侯祠介绍</span></div>
+                      <div class="bottom-column-video-top"><span name="scenicname"></span></div>
                      <div class="bottom-column-video-text ">
-                         <span name="introduce"> 悠久的佛教文化、丰富的动植物资源、独特的地质地貌著称于世，被人们誉为“仙山佛国</span>
+                         <span name="introduce"></span>
                      </div>
                   </div>
                   <div class="bottom-column-audio">
@@ -132,12 +132,9 @@
           </div>
             <div class="attractions-scenic-text" :style="displayObject">
                 <span  name="introduce">
-                     九寨沟国家级自然保护区位于四川省阿坝藏族羌族自治州九寨沟县境内，是中国第一个以保护自然风景为主要目的的自然保护区，也是中国著名风景名胜区和全国文明风景旅游区示范点，被纳入《世界自然遗产名录》、“人与生物圈”保护网络。九寨沟是一条纵深50余km的山沟谷地，总面积650.74hm²，大部分为森林所覆盖。因沟内有树正、荷叶、则查洼等九个藏族村寨坐落在这片高山湖泊群中而得名。2009年，
-                    瀑宽320米的诺日朗瀑布入选中国世界纪录协会中国最宽的瀑布。　
-                    因地灾风险，九寨沟景区从2018年7月1日起采取临时性闭园措施，暂停接待游客。
                 </span>
             </div>
-            <div class="attractions-scenic-style" @click="allshow">展开</div>
+            <div class="attractions-scenic-style" @click="allshow">{{fold}}</div>
         </div>
         <div class="attractions-scenic-aduio">
             <div class="attractions-music-styles" id="twoplaymusic">
@@ -454,7 +451,7 @@
 <div id="layerthree" hidden class="mongolian-three"></div>
     <div id="layerscenic"  class="mongolian-rebte ">
         <div class="mongolian-layerthree-top">
-            <img id="exitanvover" th:src="@{/tiles/zoom/qingshang.jpg}">
+            <img id="exitanvover" src="">
         </div>
         <div class="mongcheng-bar-test">
             <div class="mongcheng-scenic-aduio">
@@ -468,12 +465,12 @@
                 </div>
                 <div class="attractions-music-text">
                     <div class="attractions-music-text-duction">
-                        <span id="scenicspotsname">武侯祠介绍</span>
+                        <span id="scenicspotsname"></span>
                     </div>
                 </div>
             </div>
             <div class="mongcheng-teaxt-writ">
-                <textarea draggable id="introduce">亚成年大熊猫别墅B区 幼年大熊猫园成都大熊猫繁育研究基地小熊猫1号活动场 小熊猫2号活动场 成都大熊猫繁育研究基地大熊猫育幼区成都大熊猫繁育研究基地幼年大熊猫别墅 成年大熊猫别墅成都大熊猫繁育研究基地大熊猫幼稚园 成都大熊猫繁育研究基地熊猫魅力剧场成都大熊猫繁育研究基地小熊猫产房 大熊猫太阳产房 熊猫厨房 天鹅湖 成都大熊猫生态园旅游博物馆 熊猫科学探秘馆 成都蝴蝶馆成都大熊猫繁育研究基地大熊猫月亮产房 大熊猫一号别墅大熊猫14号别墅 大熊猫二号别墅站</textarea>
+                <textarea draggable id="introduce"></textarea>
             </div>
             <div class="mongolian-btn-icon" id="exitanimation">
                 <img  th:src="@{/tiles/zoom/quit.png}" >
@@ -494,77 +491,30 @@
 </html>
 
 <script type="text/javascript">
-//     new Vue({
-//         el:"#overall-box",
-//         data:{
-// //            nowIndex:1,
-//             comment:[{
-//                 avatar:"tiles/zoom/qingshang.jpg",
-//                 watchaname:"任海林",
-//                 observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
-//                 comdate:"2016.02.16"
-//             },{
-//                 avatar:"tiles/zoom/qingshang.jpg",
-//                 watchaname:"任海林",
-//                 observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
-//                 comdate:"2016.02.16"
-//             },{
-//                 avatar:"tiles/zoom/qingshang.jpg",
-//                 watchaname:"任海林",
-//                 observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
-//                 comdate:"2016.02.16"
-//             },{
-//                 avatar:"tiles/zoom/qingshang.jpg",
-//                 watchaname:"任海林",
-//                 observer:"1.我是在IE11和谷歌上做的测试,都可以显示,把做出的东西记录下来,方便大家还有自己学习!2.可以在IIS7服务器上也可以下载Tomcat来做服务器 调用pdf.js插件,将该插件放到页面的框架",
-//                 comdate:"2016.02.16"
-//             },
-//
-//             ],
-//             displayObject:"display:-webkit-box",
-//             scenic:[{
-//                 scenicimg:"tiles/zoom/qingshang.jpg",
-//                 scenicnum:"1",
-//                 sceniclocal:"大门",
-//                 scenicmight:"详情"
-//             },{
-//                 scenicimg:"tiles/zoom/qingshang.jpg",
-//                 scenicnum:"2",
-//                 sceniclocal:"大门",
-//                 scenicmight:"详情"
-//             },{
-//                     scenicimg:"tiles/zoom/qingshang.jpg",
-//                     scenicnum:"3",
-//                     sceniclocal:"大门",
-//                     scenicmight:"未解锁"
-//             },{
-//                     scenicimg:"tiles/zoom/qingshang.jpg",
-//                     scenicnum:"4",
-//                     sceniclocal:"大门",
-//                     scenicmight:"未解锁"
-//             },],
-//             voice:[{
-//                 aduioId:"104.05551630.651494",
-//                 aduiosite:"https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/%E7%A9%BA%E5%B1%B1.wav",
-//             },
-//                 {
-//                     aduioId:"104.05485630.651129",
-//                     aduiosite:"https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/%E4%BA%9A%E4%B8%81%E7%A8%BB%E5%9F%8E.wav",
-//                 }
-//             ],
-//             scenicSpotVOS:[],
-//         },
-//         methods:{
-//             allshow:function(){
-//                 if(this.displayObject === ""){
-//                     this.displayObject = "display:-webkit-box";
-//                 }else{
-//                     this.displayObject = "";
-//                 }
-//             },
-//         },
-//
-//     })
+
+
+       new Vue({
+            el:"#overall-box",
+            data:{
+                nowIndex:1,
+                displayObject:"display:-webkit-box",
+                fold:'展开',
+                scenicSpotVOS:[],
+            },
+            methods:{
+                allshow:function(){
+                    if(this.displayObject === ""){
+                        this.displayObject = "display:-webkit-box";
+                        this.fold = '展开';
+                    }else{
+                        this.displayObject = "";
+                        this.fold = '收起';
+                    }
+                },
+            },
+
+        })
+
     $(function(){
         $("#showmap").addClass("checked");
         //获取当前页面url中的参数
@@ -705,7 +655,7 @@
         var content = document.getElementById("textbox").value;
         request.ajax({
             url: URL,
-            type: 'get',
+            type: 'post',
             data: {
                 scenicId: scenicId,
                 content:content,
@@ -713,42 +663,50 @@
             },
             success: function (res) {
                 console.log(res);
-                $("#layertwo").hide();
-                $("#comment-region").show();
             }
         })
     }
 
     // 查看评论
+       var count = 0;
     $("#examinereview").click(function () {
-        var request=new Request();
-        var URL =  Headapi('web/v1/comment/comment');
-        var scenicId = document.getElementById("thefirst").value;
-        request.ajax({
-            url: URL,
-            type: 'get',
-            data: {
-                scenicId: scenicId
-            },
-            success: function (res) {
-                var content = res.content;
-                console.log(content);
-                var outerHtml = "";
-                for(var i =0;i<content.length;i++){
-                    outerHtml+=' <div class="comment-text-head-name">' +
-                        '<div class="comment-text-head">' +
-                        '<img src="'+content[i].avatarUrl+'"> </div>' +
-                        '<div class="comment-text-name">'+
-                        '<span>'+content[i].userName+'</span> </div></div>' +
-                        '<div class="comment-text-critical">' +
-                        '<span>'+content[i].content+'</span> </div>'+
-                        ' <div class="comment-text-date">' +
-                        '<span>'+content[i].entryDt+'</span></div>'
-                }
+        if(count%2 !== 1){
+            var request=new Request();
+            var URL =  Headapi('web/v1/comment/comment');
+            var scenicId = document.getElementById("thefirst").value;
+            request.ajax({
+                url: URL,
+                type: 'get',
+                data: {
+                    scenicId: scenicId
+                },
+                success: function (res) {
+                    var content = res.content;
+                    console.log(content);
+                    var outerHtml = "";
+                    for(var i =0;i<content.length;i++){
+                        outerHtml+=' <div class="comment-text-head-name">' +
+                            '<div class="comment-text-head">' +
+                            '<img src="'+content[i].avatarUrl+'"> </div>' +
+                            '<div class="comment-text-name">'+
+                            '<span>'+content[i].userName+'</span> </div></div>' +
+                            '<div class="comment-text-critical">' +
+                            '<span>'+content[i].content+'</span> </div>'+
+                            ' <div class="comment-text-date">' +
+                            '<span>'+content[i].entryDt+'</span></div>'
+                    }
 
-                $("#outerstyle").html(outerHtml);
-            }
-        })
+                    $("#outerstyle").html(outerHtml);
+                }
+            })
+            $("#outerstyle").show();
+            count = count+1;
+
+        }else {
+            $("#outerstyle").hide();
+            count = count+1;
+        }
+
     })
 
   //评论的点击事件
@@ -849,7 +807,6 @@
                 console.log(lolat);
                 $("#introduce").val(contents.introduce);
                 $("#exitanaudio").attr('src',contents.voicePacket);
-                $("#exitanvover").attr('src',contents.vover);
                 $("#scenicspotsname").html(contents.name+'介绍');
 
 
