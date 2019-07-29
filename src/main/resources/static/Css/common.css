@@ -369,9 +369,10 @@ body{
     font-size: 11px;
     letter-spacing: 2px;
     font-weight: 550;
+    margin-top: 10px;
 }
 .attractions-music-text-duction span{
-    padding-left:8px;
+    padding-left:15px;
 }
 /*游玩指引*/
 .play-guide{
