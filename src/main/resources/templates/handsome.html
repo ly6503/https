@@ -85,10 +85,10 @@
 
       <div class="bottom-column">
           <div class="bottom-column-location">
-              <div class="column-location-activation">
-                  <img th:src="@{/tiles/zoom/orientation.png}"/>
-                  <div>定位</div>
-              </div>
+              <!--<div class="column-location-activation">-->
+                  <!--<img th:src="@{/tiles/zoom/orientation.png}"/>-->
+                  <!--<div>定位</div>-->
+              <!--</div>-->
 
           </div>
           <div class="bottom-column-video">
@@ -655,57 +655,61 @@
         var content = document.getElementById("textbox").value;
         request.ajax({
             url: URL,
-            type: 'post',
+            type: 'get',
             data: {
                 scenicId: scenicId,
                 content:content,
                 token:token
             },
             success: function (res) {
-                console.log(res);
+                $("#layertwo").hide();
+                $("#comment-region").show();
             }
         })
     }
 
     // 查看评论
-       var count = 0;
+    //    var count = 0;
     $("#examinereview").click(function () {
-        if(count%2 !== 1){
-            var request=new Request();
-            var URL =  Headapi('web/v1/comment/comment');
-            var scenicId = document.getElementById("thefirst").value;
-            request.ajax({
-                url: URL,
-                type: 'get',
-                data: {
-                    scenicId: scenicId
-                },
-                success: function (res) {
-                    var content = res.content;
-                    console.log(content);
-                    var outerHtml = "";
-                    for(var i =0;i<content.length;i++){
-                        outerHtml+=' <div class="comment-text-head-name">' +
-                            '<div class="comment-text-head">' +
-                            '<img src="'+content[i].avatarUrl+'"> </div>' +
-                            '<div class="comment-text-name">'+
-                            '<span>'+content[i].userName+'</span> </div></div>' +
-                            '<div class="comment-text-critical">' +
-                            '<span>'+content[i].content+'</span> </div>'+
-                            ' <div class="comment-text-date">' +
-                            '<span>'+content[i].entryDt+'</span></div>'
-                    }
-
-                    $("#outerstyle").html(outerHtml);
-                }
-            })
-            $("#outerstyle").show();
-            count = count+1;
-
-        }else {
-            $("#outerstyle").hide();
-            count = count+1;
-        }
+        var scenicId = document.getElementById("thefirst").value;
+        var path = '/pages/comment/comment?scenicId='+ scenicId; //跳转回小程序的页面
+        wxWhether(path);
+        // if(count%2 !== 1){
+        //     var request=new Request();
+        //     var URL =  Headapi('web/v1/comment/comment');
+        //     var scenicId = document.getElementById("thefirst").value;
+        //     request.ajax({
+        //         url: URL,
+        //         type: 'get',
+        //         data: {
+        //             scenicId: scenicId
+        //         },
+        //         success: function (res) {
+        //             var content = res.content;
+        //             console.log(content);
+        //             var outerHtml = "";
+        //             for(var i =0;i<content.length;i++){
+        //                 outerHtml+=' <div class="comment-text-head-name">' +
+        //                     '<div class="comment-text-head">' +
+        //                     '<img src="'+content[i].avatarUrl+'"> </div>' +
+        //                     '<div class="comment-text-name">'+
+        //                     '<span>'+content[i].userName+'</span> </div></div>' +
+        //                     '<div class="comment-text-critical">' +
+        //                     '<span>'+content[i].content+'</span> </div>'+
+        //                     ' <div class="comment-text-date">' +
+        //                     '<span>'+content[i].entryDt+'</span></div>'
+        //             }
+        //
+        //             $("#outerstyle").html(outerHtml);
+        //         }
+        //     })
+        //     $("#outerstyle").show();
+        //     count = count+1;
+        //
+        // }else {
+        //     $("#outerstyle").hide();
+        //     count = count+1;
+        // }
 
     })
 
@@ -723,13 +727,11 @@
     function sweepList(e) {
 
         var scenicId = document.getElementById("thefirst").value;
-        console.log(scenicId);
         var path = '/pages/details/details?id=1&scenicId='+ scenicId; //跳转回小程序的页面
         wxWhether(path);
     }
     function mapactivation(e) {
         var scenicId = document.getElementById("thefirst").value;
-        console.log(scenicId);
         var path = '/pages/details/details?id=1&scenicId='+ scenicId; //跳转回小程序的页面
         wxWhether(path);
     }
