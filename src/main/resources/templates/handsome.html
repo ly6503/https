@@ -572,7 +572,7 @@
                     scenichtml += '<div class="list-underline-span">' +
                             '<div class="list-underline-span-img">' +
                             '<img src="'+scenicSpotVOS[i].vover+'"></div> ' +
-                            '<div class="list-underline-text-introduction">'+scenicSpotVOS[i].id+'&nbsp;&nbsp;'+scenicSpotVOS[i].name+'</div>' +
+                            '<div class="list-underline-text-introduction">'+Number(i+1)+'&nbsp;&nbsp;'+scenicSpotVOS[i].name+'</div>' +
                             '<div class="list-underline-text-introduction-right" onclick="scenicparticulars('+scenicSpotVOS[i].id+')">'+scenicSpotVOS[i].unlocked+'</div></div>'
                  }
                 $("#list-underline-span").html(scenichtml);
@@ -808,7 +808,7 @@
                 $("#introduce").val(contents.introduce);
                 $("#exitanaudio").attr('src',contents.voicePacket);
                 $("#scenicspotsname").html(contents.name+'介绍');
-
+                $("#exitanvover").attr('src',contents.vover);
 
             },
             error:function(err){
