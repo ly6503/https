@@ -146,7 +146,7 @@
                 </div>
             </div>
         </div>
-        <div class="play-guide">
+        <div  class="play-guide">
             <div class="play-guide-text">
                 <span>游玩指引</span>
             </div>
@@ -178,7 +178,7 @@
             </div>
 
 
-            <div class="play-guide-duction">
+            <div name = "play-guide-region" class="play-guide-duction">
                 <span>地址</span>
                 <div class="play-guide-duction-right">
                     <span id="address">
@@ -192,7 +192,7 @@
             </div>
 
 
-            <div class="play-guide-duction">
+            <div name = "play-guide-region" class="play-guide-duction">
                 <span>交通</span>
                 <div class="play-guide-duction-right">
                     <span id="traffic">
@@ -202,7 +202,7 @@
             </div>
 
 
-            <div class="play-guide-duction">
+            <div name = "play-guide-region" class="play-guide-duction">
                 <span>贴士</span>
                 <div class="play-guide-duction-right">
                     <span id="tips">
@@ -249,17 +249,18 @@
 </div>
 <!--第二模蒙层块样式-->
 <div hidden id="layertwo" class="mongolian-layertwo">
-    <div class="mongolian-layertwo-vertical">
-        <div class="mongolian-layer-textarea">
-            <textarea id="textbox"></textarea>
-        </div>
-        <div class="mongolian-layer-sumbit">
-            <button onclick="submitComments()">提交</button>
-            <button id="deselect">取消</button>
+</div>
+<div hidden id="layertwoson" class="mongolian-layertwo-vertical">
+    <div class="mongolian-layer-textarea">
+        <textarea id="textbox"></textarea>
+    </div>
+    <div class="mongolian-layer-sumbit">
+        <button onclick="submitComments()">提交</button>
+        <button id="deselect">取消</button>
 
-        </div>
     </div>
 </div>
+
 <!--第一模块蒙层样式-->
 <!--<div id="layer" hidden class="mongolian-layer">-->
     <!--<div class="mongolian-layer-vertical">-->
@@ -646,7 +647,8 @@
 
     })
 
-    // 提交评论
+
+       // 提交评论
     function submitComments(){
         var request=new Request();
         var URL =  Headapi('web/v1/comment/addComment');
@@ -664,6 +666,8 @@
             success: function (res) {
                 $("#layertwo").hide();
                 $("#comment-region").show();
+                $("div[name='play-guide-region']").show();
+                $("#layertwoson").hide();
             }
         })
     }
@@ -716,12 +720,16 @@
   //评论的点击事件
     $("#observername").click(function(){
         $("#layertwo").show();
+        $("#layertwoson").show();
         $("#comment-region").hide();
+        $("div[name='play-guide-region']").hide();
     })
     //推出评论区
     $("#deselect").click(function(){
         $("#layertwo").hide();
+        $("#layertwoson").hide();
         $("#comment-region").show();
+        $("div[name='play-guide-region']").show();
     })
      //点击机器人语音扫码支付
     function sweepList(e) {
