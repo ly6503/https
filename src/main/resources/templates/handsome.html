@@ -784,15 +784,19 @@
             });
         }
     }
+       //判断页面是关闭还是销毁， 页面销毁返回上级
+       window.onunload   =   function(){
+           var   n   =   window.event.screenX   -   window.screenLeft;
+           var   b   =   n   >   document.documentElement.scrollWidth-20;
+           if(b && window.event.clientY   <   0   ||   window.event.altKey){
+               wx.miniProgram.navigateBack({
+                   delat:2
+               })
+           }
+       }
 
 
 
-     //判断页面是关闭还是销毁， 页面销毁返回上级
-    window.onbeforeunload= function () {
-        wx.miniProgram.navigateBack({
-            delat:2
-        })
-    }
 
 //    景点详情弹框样式
     function scenicparticulars(scenicStopId){
