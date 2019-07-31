@@ -784,8 +784,11 @@
             });
         }
     }
-     // 页面销毁返回上级
-    window.onunload = function () {
+
+
+
+     //判断页面是关闭还是销毁， 页面销毁返回上级
+    window.onbeforeunload= function () {
         wx.miniProgram.navigateBack({
             delat:2
         })
