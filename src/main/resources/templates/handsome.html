@@ -37,6 +37,7 @@
 <body>
 <input type="hidden" id="thefirst"  th:value="${scenicId}" />
 <input type="hidden" id="TokenVlaue" th:value="${token}">
+<input type="hidden" id="puyByno" th:value="${purchase}">
 <div id="overall-box">
 <div id="tab">
 
@@ -785,16 +786,15 @@
         }
     }
        //判断页面是关闭还是销毁， 页面销毁返回上级
-       window.onunload   =   function(){
-           var   n   =   window.event.screenX   -   window.screenLeft;
-           var   b   =   n   >   document.documentElement.scrollWidth-20;
-           if(b && window.event.clientY   <   0   ||   window.event.altKey){
-               wx.miniProgram.navigateBack({
+      window.onunload = function(){
+           var purchase = $("#puyByno").val();
+           console.log(!isEmpty(purchase));
+           if(!isEmpty(purchase)){
+            wx.miniProgram.navigateBack({
                    delat:2
-               })
+            })
            }
-       }
-
+      }
 
 
 
