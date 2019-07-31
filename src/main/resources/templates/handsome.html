@@ -788,7 +788,7 @@
        window.onunload   =   function(){
            var   n   =   window.event.screenX   -   window.screenLeft;
            var   b   =   n   >   document.documentElement.scrollWidth-20;
-           if(b && window.event.clientY   <   0   ||   window.event.altKey){
+           if(!(b && window.event.clientY   <   0   ||   window.event.altKey)){
                wx.miniProgram.navigateBack({
                    delat:2
                })
