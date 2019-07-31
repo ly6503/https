@@ -34,7 +34,7 @@
 
 </head>
 
-<body>
+<body onunload="fclose();" onload="fload();" onbeforeunload="bfunload();">
 <input type="hidden" id="thefirst"  th:value="${scenicId}" />
 <input type="hidden" id="TokenVlaue" th:value="${token}"/>
 <div id="overall-box">
@@ -126,7 +126,7 @@
         <div class="attractions">
         <img id="vover" th:src="@{/tiles/zoom/qingshang.jpg}">
        </div>
-        <div class="attractions-suspension">
+        <div class="attractions-suspension" id="play-guide-region">
           <div class="attractions-scenic">
               <span>景区介绍</span>
           </div>
@@ -178,7 +178,7 @@
             </div>
 
 
-            <div name = "play-guide-region" class="play-guide-duction">
+            <div  class="play-guide-duction">
                 <span>地址</span>
                 <div class="play-guide-duction-right">
                     <span id="address">
@@ -192,7 +192,7 @@
             </div>
 
 
-            <div name = "play-guide-region" class="play-guide-duction">
+            <div  class="play-guide-duction">
                 <span>交通</span>
                 <div class="play-guide-duction-right">
                     <span id="traffic">
@@ -202,7 +202,7 @@
             </div>
 
 
-            <div name = "play-guide-region" class="play-guide-duction">
+            <div class="play-guide-duction">
                 <span>贴士</span>
                 <div class="play-guide-duction-right">
                     <span id="tips">
@@ -587,7 +587,6 @@
                     $("#mapBuyPur").show();
                 }
                 BaiduMap(scenicArray);
-                console.log(scenicArray);
                 window.localStorage.setItem("scenicArray",JSON.stringify(scenicArray));
             },
             error:function(err){
@@ -666,7 +665,7 @@
             success: function (res) {
                 $("#layertwo").hide();
                 $("#comment-region").show();
-                $("div[name='play-guide-region']").show();
+                $("#play-guide-region").show();
                 $("#layertwoson").hide();
             }
         })
@@ -722,14 +721,14 @@
         $("#layertwo").show();
         $("#layertwoson").show();
         $("#comment-region").hide();
-        $("div[name='play-guide-region']").hide();
+        $("#play-guide-region").hide();
     })
     //推出评论区
     $("#deselect").click(function(){
         $("#layertwo").hide();
         $("#layertwoson").hide();
         $("#comment-region").show();
-        $("div[name='play-guide-region']").show();
+        $("#play-guide-region").show();
     })
      //点击机器人语音扫码支付
     function sweepList(e) {
@@ -761,7 +760,6 @@
         var smallPro=false;
         //判断当前页面是否在小程序环境中
         wx.miniProgram.getEnv(function(res) {
-            console.log(res.miniprogram) // true
             if(res.miniprogram){
                 smallPro=true;
             }else{
@@ -795,7 +793,6 @@
         var URL =  Headapi('web/v1/scenic/scenicStopById');
         var scenicStopId = scenicStopId;
         var scenicId= $("#thefirst").val();
-        console.log(scenicId);
         request.ajax({
             url: URL,
             type: 'get',
@@ -805,13 +802,11 @@
             },
             success:function(res){
                 var contents = res.content;
-                console.log(contents);
                 var imghtml = "";
                 var lolatitude = strsplit(contents.coords);
                 var lolat =lolatitude[0]+''+lolatitude[1];
                 imghtml+='<div id="exitanaudiosd" onclick="exitanaudios(\''+lolat+'\' )"> </div>';
                 $("#attractions-music").html(imghtml);
-                console.log(lolat);
                 $("#introduce").val(contents.introduce);
                 $("#exitanaudio").attr('src',contents.voicePacket);
                 $("#scenicspotsname").html(contents.name+'介绍');
@@ -952,7 +947,6 @@
           // 标注点
           var Musichtml = "";
           for(var i=0;i<spotList.length;i++){
-            console.log(spotList);
             var lolatitudes = strsplit(spotList[i].coords);
             var lolat =lolatitudes[0]+''+lolatitudes[1];
             var lolatitude = strsplit(spotList[i].coords);
@@ -1039,7 +1033,7 @@
                 // console.log(r.longitude);
                 // console.log(r.latitude);
             } else {
-                mui.alert('failed' + this.getStatus()); //定位失败
+                alert('failed' + this.getStatus()); //定位失败
             }
         }
         }else {
@@ -1068,7 +1062,6 @@
 </script>
 <script type="text/javascript">
  function BaiduMap(scenicArray){
-     console.log(scenicArray.coords);
      var coords = strsplit(scenicArray.coords);
      var northeast =strsplit(scenicArray.northeast);
      var southwest =strsplit(scenicArray.southwest);
@@ -1239,20 +1232,11 @@
      return links_id;
  }
 
-
-
- //判断页面是关闭还是销毁， 页面销毁返回上级
- window.onbeforeunload=function(){
-      return
-  }
- window.onunload = function(){
-     wx.miniProgram.navigateBack({
-         delat:2
-     })
- }
-
-
-  
+   window.onunload = function () {
+       wx.miniProgram.navigateBack({
+          delta:2
+       })
+   }
 
 
 
