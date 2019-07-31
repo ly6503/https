@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ViewsController {
 
     @RequestMapping(value = "/map",method = RequestMethod.GET)
-    public String helloHtml(@RequestParam Long scenicId ,@RequestParam String token, @RequestParam String purchase, Model model) {
+    public String helloHtml(@RequestParam Long scenicId ,@RequestParam String token,  Model model) {
         model.addAttribute("scenicId",scenicId);
         model.addAttribute("token",token);
-        model.addAttribute("purchase",purchase);
         return "handsome";
     }
 

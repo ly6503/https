@@ -36,8 +36,7 @@
 
 <body>
 <input type="hidden" id="thefirst"  th:value="${scenicId}" />
-<input type="hidden" id="TokenVlaue" th:value="${token}">
-<input type="hidden" id="puyByno" th:value="${purchase}">
+<input type="hidden" id="TokenVlaue" th:value="${token}"/>
 <div id="overall-box">
 <div id="tab">
 
@@ -785,16 +784,7 @@
             });
         }
     }
-       //判断页面是关闭还是销毁， 页面销毁返回上级
-      window.onunload = function(){
-           var purchase = $("#puyByno").val();
-           console.log(!isEmpty(purchase));
-           if(!isEmpty(purchase)){
-            wx.miniProgram.navigateBack({
-                   delat:2
-            })
-           }
-      }
+
 
 
 
@@ -1251,7 +1241,15 @@
 
 
 
-
+ //判断页面是关闭还是销毁， 页面销毁返回上级
+ window.onbeforeunload=function(){
+      return
+  }
+ window.onunload = function(){
+     wx.miniProgram.navigateBack({
+         delat:2
+     })
+ }
 
 
   
