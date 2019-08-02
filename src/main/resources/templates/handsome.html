@@ -569,11 +569,11 @@
                 var scenicSpotVOS = scenicArray.spotList;
                 var scenichtml = '';
                 for(var i =0;i<scenicSpotVOS.length;i++){
-                    scenichtml += '<div class="list-underline-span">' +
+                    scenichtml += '<div class="list-underline-span" onclick="scenicparticulars(\'+scenicSpotVOS[i].id+\')">' +
                             '<div class="list-underline-span-img">' +
                             '<img src="'+scenicSpotVOS[i].vover+'"></div> ' +
                             '<div class="list-underline-text-introduction">'+Number(i+1)+'&nbsp;&nbsp;'+scenicSpotVOS[i].name+'</div>' +
-                            '<div class="list-underline-text-introduction-right" onclick="scenicparticulars('+scenicSpotVOS[i].id+')">'+scenicSpotVOS[i].unlocked+'</div></div>'
+                            '<div class="list-underline-text-introduction-right" >'+scenicSpotVOS[i].unlocked+'</div></div>'
                  }
                 $("#list-underline-span").html(scenichtml);
                 // 百度地图操作
