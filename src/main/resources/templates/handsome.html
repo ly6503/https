@@ -31,10 +31,9 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.3.min.js"></script>
 
     <title>地图导航</title>
-
 </head>
 
-<body onunload="fclose();" onload="fload();" onbeforeunload="bfunload();">
+<body >
 <input type="hidden" id="thefirst"  th:value="${scenicId}" />
 <input type="hidden" id="TokenVlaue" th:value="${token}"/>
 <div id="overall-box">
@@ -742,8 +741,12 @@
         var path = '/pages/details/details?id=1&scenicId='+ scenicId; //跳转回小程序的页面
         wxWhether(path);
     }
-    // 点击机器人语音微信支付跳转小程序
+    // 点击购买跳转小程序
+       var isCalled = false , timer;
     function purchase(){
+       if(!isCalled){
+           isCalled = true;
+           clearTimeout(timer);
          var scenicId = $("#thefirst").val();
          if(isEmpty(scenicId)){
              var path = '/pages/money/money?scenicId='+scenicId;
@@ -752,6 +755,10 @@
          }
 
          wxWhether(path);
+         timer = setTimeout(function () {
+             isCalled = false;
+         },5000)
+       }
     }
    // 封装判断是否在小程序方法
 
@@ -1232,11 +1239,14 @@
      return links_id;
  }
 
-   window.onunload = function () {
-       wx.miniProgram.navigateBack({
-          delta:2
-       })
-   }
+
+
+  window.onunload = function () {
+          wx.miniProgram.navigateBack({
+              delta :1
+          })
+    }
+
 
 
 
