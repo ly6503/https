@@ -470,7 +470,7 @@
                 </div>
             </div>
             <div class="mongcheng-teaxt-writ">
-                <textarea draggable id="introduce"></textarea>
+                <textarea draggable id="introduce" readonly></textarea>
             </div>
             <div class="mongolian-btn-icon" id="exitanimation">
                 <img  th:src="@{/tiles/zoom/quit.png}" >
@@ -569,7 +569,7 @@
                 var scenicSpotVOS = scenicArray.spotList;
                 var scenichtml = '';
                 for(var i =0;i<scenicSpotVOS.length;i++){
-                    scenichtml += '<div class="list-underline-span" onclick="scenicparticulars(\'+scenicSpotVOS[i].id+\')">' +
+                    scenichtml += '<div class="list-underline-span" onclick="scenicparticulars(\''+scenicSpotVOS[i].id+'\')">' +
                             '<div class="list-underline-span-img">' +
                             '<img src="'+scenicSpotVOS[i].vover+'"></div> ' +
                             '<div class="list-underline-text-introduction">'+Number(i+1)+'&nbsp;&nbsp;'+scenicSpotVOS[i].name+'</div>' +
@@ -671,11 +671,19 @@
     }
 
     // 查看评论
-    //    var count = 0;
+    var tissue = false ,clock;
     $("#examinereview").click(function () {
+        if(!tissue){
+            tissue = true;
+            clearTimeout(clock);
         var scenicId = document.getElementById("thefirst").value;
         var path = '/pages/comment/comment?scenicId='+ scenicId; //跳转回小程序的页面
         wxWhether(path);
+         clock = setTimeout(function () {
+             tissue = false;
+         },5000)
+        }
+
         // if(count%2 !== 1){
         //     var request=new Request();
         //     var URL =  Headapi('web/v1/comment/comment');
@@ -738,12 +746,11 @@
     }
 
     var isMapcad = false ,tiremse;
-    function mapactivation(e) {
+    function mapactivation() {
         if(!isMapcad){
             isMapcad = true;
             clearTimeout(tiremse)
-           var scenicId = document.getElementById("thefirst").value;
-           var path = '/pages/details/details?id=1&scenicId='+ scenicId; //跳转回小程序的页面
+           var path = '/pages/codescann/codescann'; //跳转回小程序的页面
           wxWhether(path);
         tiremse = setTimeout(function () {
             isMapcad  = false
