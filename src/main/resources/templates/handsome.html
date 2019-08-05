@@ -550,9 +550,8 @@
                 token:token
             },
             success:function(res){
-                console.log(res);
                 var scenicArray = res.content;
-                coords = scenicArray.coords;
+                // coords = scenicArray.coords;
                 $("#coords").val(scenicArray.coords);         //中心角
                 $("#northeast").val(scenicArray.northeast);   //东北角
                 $("#southwest").val(scenicArray.southwest);   //西南角坐标
@@ -918,13 +917,13 @@
             var southwest =strsplit(scenicArray.southwest);
             var sketchUrl = scenicArray.sketchUrl;
             var spotList = scenicArray.spotList;
-
+            var rank = scenicArray.rank;
             //地图中添加叠加层   104.054483,30.652775
             var TianAnMen = new BMap.Point(coords[0],coords[1]);
             // 创建Map实例
             var map = new BMap.Map("allmap");
             // 居中放大
-            map.centerAndZoom(TianAnMen, 17);
+            map.centerAndZoom(TianAnMen, rank);
 
             // 启用滚轮放大缩小
             map.enableScrollWheelZoom();
@@ -1085,18 +1084,20 @@
 </script>
 <script type="text/javascript">
  function BaiduMap(scenicArray){
+
      var coords = strsplit(scenicArray.coords);
      var northeast =strsplit(scenicArray.northeast);
      var southwest =strsplit(scenicArray.southwest);
      var sketchUrl = scenicArray.sketchUrl;
      var spotList = scenicArray.spotList;
+     var rank = scenicArray.rank;
 
      //地图中添加叠加层   104.054483,30.652775
         var TianAnMen = new BMap.Point(coords[0],coords[1]);
     // 创建Map实例
         var map = new BMap.Map("allmap");
     // 居中放大
-        map.centerAndZoom(TianAnMen, 17);
+        map.centerAndZoom(TianAnMen, rank);
 
     // 启用滚轮放大缩小
         map.enableScrollWheelZoom();
