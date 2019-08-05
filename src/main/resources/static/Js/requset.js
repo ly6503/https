@@ -128,7 +128,7 @@ function random() {
 
 //��װ����ͷ
 function Headapi(url){
-      return 'https://192.168.1.105:9520/'+url
+      return 'https://www.qiouou.com:9520/'+url
 
     //'http://192.168.1.101:9520/'+ url;
 
