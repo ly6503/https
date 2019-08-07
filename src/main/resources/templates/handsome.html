@@ -738,7 +738,7 @@
         $("#play-guide-region").show();
     })
      //点击机器人语音扫码支付
-    function sweepList(e) {
+    function sweepList() {
 
         var scenicId = document.getElementById("thefirst").value;
         var path = '/pages/details/details?id=1&scenicId='+ scenicId; //跳转回小程序的页面
@@ -747,10 +747,13 @@
 
     var isMapcad = false ,tiremse;
     function mapactivation() {
+
+        var scenicId = document.getElementById("thefirst").value;
         if(!isMapcad){
             isMapcad = true;
             clearTimeout(tiremse)
-           var path = '/pages/codescann/codescann'; //跳转回小程序的页面
+            var judge = 1
+           var path = '/pages/details/details?scenicId='+scenicId+'&judge='+judge; //跳转回小程序的页面
           wxWhether(path);
         tiremse = setTimeout(function () {
             isMapcad  = false
