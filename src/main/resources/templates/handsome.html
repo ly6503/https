@@ -569,7 +569,7 @@
                 var scenicSpotVOS = scenicArray.spotList;
                 var scenichtml = '';
                 for(var i =0;i<scenicSpotVOS.length;i++){
-                    scenichtml += '<div class="list-underline-span" onclick=\"scenicparticulars('+scenicSpotVOS[i].id + ','+scenicSpotVOS[i].type+' )\" >' +
+                    scenichtml += '<div class="list-underline-span" onclick=\"scenicparticulars('+scenicSpotVOS[i].id + ','+scenicSpotVOS[i].type+','+scenicSpotVOS[i].collectId+' )\" >' +
                             '<div class="list-underline-span-img">' +
                             '<img src="'+scenicSpotVOS[i].vover+'"></div> ' +
                             '<div class="list-underline-text-introduction">'+Number(i+1)+'&nbsp;&nbsp;'+scenicSpotVOS[i].name+'</div>' +
@@ -813,13 +813,13 @@
 
 
 //    景点详情弹框样式
-    function scenicparticulars(scenicStopId,type){
+    function scenicparticulars(scenicStopId,type,collectId){
         $('img[name="sceneryimg"]').attr("src","/tiles/zoom/suspend.png");
         var request=new Request();
         var URL =  Headapi('web/v1/scenic/scenicStopById');
         var scenicId= $("#thefirst").val();
         if(type == 2){
-            var path = '/pages/scenic/scenic?scenicId='+scenicStopId;
+            var path = '/pages/scenic/scenic?scenicId='+collectId;
             wxWhether(path);
            return
         }else {
