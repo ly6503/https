@@ -569,7 +569,7 @@
                 var scenicSpotVOS = scenicArray.spotList;
                 var scenichtml = '';
                 for(var i =0;i<scenicSpotVOS.length;i++){
-                    scenichtml += '<div class="list-underline-span" onclick="scenicparticulars(\''+scenicSpotVOS[i].id+'\')">' +
+                    scenichtml += '<div class="list-underline-span" onclick=\"scenicparticulars('+scenicSpotVOS[i].id + ','+scenicSpotVOS[i].type+' )\" >' +
                             '<div class="list-underline-span-img">' +
                             '<img src="'+scenicSpotVOS[i].vover+'"></div> ' +
                             '<div class="list-underline-text-introduction">'+Number(i+1)+'&nbsp;&nbsp;'+scenicSpotVOS[i].name+'</div>' +
@@ -813,37 +813,43 @@
 
 
 //    景点详情弹框样式
-    function scenicparticulars(scenicStopId){
+    function scenicparticulars(scenicStopId,type){
         $('img[name="sceneryimg"]').attr("src","/tiles/zoom/suspend.png");
         var request=new Request();
         var URL =  Headapi('web/v1/scenic/scenicStopById');
-        var scenicStopId = scenicStopId;
         var scenicId= $("#thefirst").val();
-        request.ajax({
-            url: URL,
-            type: 'get',
-            data: {
-                scenicId: scenicId,
-                scenicStopId:scenicStopId,
-            },
-            success:function(res){
-                var contents = res.content;
-                var imghtml = "";
-                var lolatitude = strsplit(contents.coords);
-                var lolat =lolatitude[0]+''+lolatitude[1];
-                imghtml+='<div id="exitanaudiosd" onclick="exitanaudios(\''+lolat+'\' )"> </div>';
-                $("#attractions-music").html(imghtml);
-                $("#introduce").val(contents.introduce);
-                $("#exitanaudio").attr('src',contents.voicePacket);
-                $("#scenicspotsname").html(contents.name+'介绍');
-                $("#exitanvover").attr('src',contents.vover);
+        if(type == 2){
+            var path = '/pages/scenic/scenic?scenicId='+scenicStopId;
+            wxWhether(path);
+           return
+        }else {
+            request.ajax({
+                url: URL,
+                type: 'get',
+                data: {
+                    scenicId: scenicId,
+                    scenicStopId:scenicStopId,
+                },
+                success:function(res){
+                    var contents = res.content;
+                    var imghtml = "";
+                    var lolatitude = strsplit(contents.coords);
+                    var lolat =lolatitude[0]+''+lolatitude[1];
+                    imghtml+='<div id="exitanaudiosd" onclick="exitanaudios(\''+lolat+'\' )"> </div>';
+                    $("#attractions-music").html(imghtml);
+                    $("#introduce").val(contents.introduce);
+                    $("#exitanaudio").attr('src',contents.voicePacket);
+                    $("#scenicspotsname").html(contents.name+'介绍');
+                    $("#exitanvover").attr('src',contents.vover);
 
-            },
-            error:function(err){
-                console.log(err);
-            }
+                },
+                error:function(err){
+                    console.log(err);
+                }
 
-        })
+            })
+        }
+
         $("#layerthree").show();
         $("#layerscenic").addClass("scenic-upanimation");
         $("#layerscenic").removeClass("scenic-downanimation");
