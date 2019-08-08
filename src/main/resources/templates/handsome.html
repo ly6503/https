@@ -831,6 +831,7 @@
                     scenicStopId:scenicStopId,
                 },
                 success:function(res){
+                    console.log(res);
                     var contents = res.content;
                     var imghtml = "";
                     var lolatitude = strsplit(contents.coords);
@@ -889,6 +890,7 @@
         var name = 'img[name="sceneryimg"]';
         var samsungName = 'img[name="palyaudiosimg"]';
         var audioVlaue = document.getElementById(lolat).innerHTML;
+        console.log(audioVlaue);
         if(audioVlaue=="true"){
             musicPlayer(audiosmis,name,attractions,samsungName);
         }
@@ -986,9 +988,8 @@
 
             Musichtml +='<audio hidden id="'+lolat+'" src="'+spotList[i].voicePacket+'">'+spotList[i].state+'</audio>'
             var phonoshop = spotList[i].phonoshop;
-            // var myIcon = new BMap.Icon(phonoshop, new BMap.Size(23, 25));
-            // {icon:myIcon}
-            marker = new BMap.Marker(point);
+            var myIcon = new BMap.Icon(phonoshop, new BMap.Size(23, 25));
+            marker = new BMap.Marker(point, {icon:myIcon});
             marker.addEventListener("click",function(e){
                 var clickId = e.currentTarget.point.lng +''+ e.currentTarget.point.lat;
                 var clickIdMusic =  document.getElementById(clickId);
@@ -1185,9 +1186,8 @@
 
           Musichtml +='<audio hidden id="'+lolat+'" src="'+spotList[i].voicePacket+'">'+spotList[i].state+'</audio>'
           var phonoshop = spotList[i].phonoshop;
-          // var myIcon = new BMap.Icon(phonoshop, new BMap.Size(23, 25));
-          // {icon:myIcon}
-          marker = new BMap.Marker(point);
+          var myIcon = new BMap.Icon(phonoshop, new BMap.Size(23, 25));
+          marker = new BMap.Marker(point, {icon:myIcon});
           marker.addEventListener("click",function(e){
               var clickId = e.currentTarget.point.lng +''+ e.currentTarget.point.lat;
               var clickIdMusic =  document.getElementById(clickId);
