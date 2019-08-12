@@ -662,10 +662,22 @@
                 token:token
             },
             success: function (res) {
-                $("#layertwo").hide();
-                $("#comment-region").show();
-                $("#play-guide-region").show();
-                $("#layertwoson").hide();
+                var success = res.data.success
+                var message = res.data.message
+                if(success){
+                    $("#layertwo").hide();
+                    $("#comment-region").show();
+                    $("#play-guide-region").show();
+                    $("#layertwoson").hide();
+                    alert("评论成功！！！");
+                }else {
+                    $("#layertwo").hide();
+                    $("#comment-region").show();
+                    $("#play-guide-region").show();
+                    $("#layertwoson").hide();
+                    alert(message);
+                }
+
             }
         })
     }
