@@ -1064,12 +1064,13 @@
                     for(var j=0;j<spotList.length;j++){
                         var lolatitude = strsplit(spotList[j].coords);
                         var sceniccircle = new BMap.Circle( new BMap.Point(lolatitude[0],lolatitude[1]),20,{fillColor:"#FFFFFF", strokeWeight: 1,fillOpacity: 0.1, strokeOpacity: 0.1});
-                        if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)){
-                            var scenicId  = lolatitude[0]+''+lolatitude[1];
+                        if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)) {
+                            var scenicId = lolatitude[0] + '' + lolatitude[1];
                             document.getElementById(scenicId).play();
-                        }else {
-                            alert("不在景点 "+spotList[j].name+" 圆圈内");
                         }
+                        // }else {
+                        //     // alert("不在景点 "+spotList[j].name+" 圆圈内");
+                        // }
                         map.addOverlay(sceniccircle)
                     }
                     var  request = new Request();
