@@ -1068,6 +1068,22 @@
                         }
                         map.addOverlay(sceniccircle)
                     }
+                    var  request = new Request();
+                    var URL =  Headapi('web/v1/wx-user/first');
+                    request.ajax({
+                        url: URL,
+                        type: 'get',
+                        data: {
+                            scenicId: Number($("#thefirst").val()),
+                            token: $("#TokenVlaue").val(),
+                        },
+                        success: function (res) {
+                           console.log(res);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        },
+                    })
                     timer = setTimeout("gethost()",180000);
                 }else {
                     alert("不在该景区，不能开启该功能");
