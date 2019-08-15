@@ -68,7 +68,7 @@
                     <div class="map-activation-img">
                         <img th:src="@{/tiles/zoom/automatic.png}">
                     </div>
-                   <div class="map-activation-explain" onclick="gethost()">
+                   <div class="map-activation-explain" id="gethost" onclick="gethost()">
                        <span>自动讲解</span>
                    </div>
                 </div>
@@ -76,7 +76,7 @@
                     <div class="map-activation-img">
                         <img th:src="@{/tiles/zoom/autoexplain.png}">
                     </div>
-                    <div class="map-activation-explain" onclick="sethost()">
+                    <div class="map-activation-explain" id="sethost" onclick="sethost()">
                         <span>取消讲解</span>
                     </div>
                 </div>
@@ -516,6 +516,8 @@
         })
 
     $(function(){
+        $("#gethost").show();
+        $("#sethost").hide();
         $("#showmap").addClass("checked");
         //获取当前页面url中的参数
         function getUrlParam() {
@@ -933,6 +935,8 @@
     // 点击自动讲解
     var timer = null;
     function gethost() {
+        $("#gethost").hide();
+        $("#sethost").show();
      var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
 
 
@@ -1109,6 +1113,8 @@
 
  // 取消自动讲解
     function sethost() {
+        $("#gethost").show();
+        $("#sethost").hide();
         var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
         var spotList  = scenicArray.spotList;
         for(var i =0; i<spotList.length;i++){
