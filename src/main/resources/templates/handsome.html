@@ -64,19 +64,19 @@
                         <!--&lt;!&ndash;<span>路线</span>&ndash;&gt;-->
                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
                 <!--</div>-->
-                <div class="map-activation">
+                <div class="map-activation" id="gethost">
                     <div class="map-activation-img">
                         <img th:src="@{/tiles/zoom/automatic.png}">
                     </div>
-                   <div class="map-activation-explain" id="gethost" onclick="gethost()">
+                   <div class="map-activation-explain"  onclick="gethost()">
                        <span>自动讲解</span>
                    </div>
                 </div>
-                <div class="map-activation">
+                <div class="map-activation" id="sethost">
                     <div class="map-activation-img">
                         <img th:src="@{/tiles/zoom/autoexplain.png}">
                     </div>
-                    <div class="map-activation-explain" id="sethost" onclick="sethost()">
+                    <div class="map-activation-explain"  onclick="sethost()">
                         <span>取消讲解</span>
                     </div>
                 </div>
