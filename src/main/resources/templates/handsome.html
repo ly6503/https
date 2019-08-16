@@ -1059,6 +1059,10 @@
             if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
                 //              范围匹配
                 var current = new BMap.Point(r.longitude,r.latitude);
+                var myIcon = new BMap.Icon('https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/common/img/popr.png', new BMap.Size(33, 35));
+                marker = new BMap.Marker(current, {icon:myIcon});
+                map.getPanes().markerPane.style.zIndex = 500;
+                map.addOverlay(marker);
                 var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius/2,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
                 if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
                     for(var j=0;j<spotList.length;j++){
