@@ -1049,13 +1049,10 @@
         } else {
             map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
         }
-        var gc = new BMap.Geocoder();//将坐标转换成地址
-
         //处理定位后的信息
+            var radius = scenicArray.radius;
 
-        var radius = scenicArray.radius;
-
-        function showLocation(r) {
+          function showLocation(r) {
             if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
                 //              范围匹配
                 var current = new BMap.Point(r.longitude,r.latitude);
@@ -1063,6 +1060,7 @@
                 marker = new BMap.Marker(current, {icon:myIcon});
                 map.getPanes().markerPane.style.zIndex = 500;
                 map.addOverlay(marker);
+                alert(r.longitude,r.latitude);
                 var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius/2,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
                 if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
                     var playcount = 0
@@ -1070,7 +1068,6 @@
                         var lolatitude = strsplit(spotList[j].coords);
                         var sceniccircle = new BMap.Circle( new BMap.Point(lolatitude[0],lolatitude[1]),20,{fillColor:"#FFFFFF", strokeWeight: 1,fillOpacity: 0.1, strokeOpacity: 0.1});
                         if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)) {
-                            // alert(lolatitude[0],lolatitude[1]);
                             var scenicId = lolatitude[0] + '' + lolatitude[1];
                             if(playcount == 0){
                                 document.getElementById(scenicId).play();
@@ -1098,7 +1095,7 @@
                             console.log(err);
                         },
                     })
-
+                    timer = setInterval("gethost()",18000);
                 }else {
                     alert("不在该景区，不能开启该功能");
                 }
@@ -1115,7 +1112,7 @@
             alert("暂未购买该功能");
         }
     }
-      var timer = setInterval("gethost()",18000);
+
  // 取消自动讲解
     function sethost() {
         $("#gethost").show();
