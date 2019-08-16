@@ -1060,7 +1060,7 @@
                 marker = new BMap.Marker(current, {icon:myIcon});
                 map.getPanes().markerPane.style.zIndex = 500;
                 map.addOverlay(marker);
-                alert(r.longitude,r.latitude);
+
                 var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius/2,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
                 if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
                     var playcount = 0
@@ -1102,8 +1102,8 @@
 
                 map.addOverlay(circle);
                 // alert(r.longitude+","+r.latitude);
-                // console.log(r.longitude);
-                // console.log(r.latitude);
+                console.log(r.longitude);
+                console.log(r.latitude);
             } else {
                 alert('failed' + this.getStatus()); //定位失败
             }
