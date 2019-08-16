@@ -1071,7 +1071,12 @@
                         if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)) {
                             alert(lolatitude[0],lolatitude[1]);
                             var scenicId = lolatitude[0] + '' + lolatitude[1];
-                            document.getElementById(scenicId).load();
+                            if(document.getElementById(scenicId).played){
+                                return
+                            }else{
+                                document.getElementById(scenicId).play();
+                            }
+
                         }
                         // }else {
                         //     // alert("不在景点 "+spotList[j].name+" 圆圈内");
