@@ -1059,7 +1059,7 @@
             if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
                 //              范围匹配
                 var current = new BMap.Point(r.longitude,r.latitude);
-                var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
+                var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius/2,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
                 if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
                     for(var j=0;j<spotList.length;j++){
                         var lolatitude = strsplit(spotList[j].coords);
