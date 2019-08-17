@@ -936,9 +936,9 @@
     var timer = null;
     function gethost() {
         
+
+
             var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
-
-
             var coords = strsplit(scenicArray.coords);
             var northeast =strsplit(scenicArray.northeast);
             var southwest =strsplit(scenicArray.southwest);
@@ -1037,84 +1037,84 @@
 
 //         是否该买该景区
             var scenicState = scenicArray.scenicState;
-
+           Geolocation()
             // if(scenicState){
             //     //判断手机浏览器是否支持定位
-        (function () {
-            
+          function Geolocation() {
+             if(navigator.geolocation) {
+                 var geolocation = new BMap.Geolocation(); //创建定位实例
+                 geolocation.getCurrentPosition(showLocation, {
+                     enableHighAccuracy: true
+                 }); //enableHighAccuracy 要求浏览器获取最佳结果
+             } else {
+                 map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
+             }
 
-            if(navigator.geolocation) {
-                var geolocation = new BMap.Geolocation(); //创建定位实例
-                geolocation.getCurrentPosition(showLocation, {
-                    enableHighAccuracy: true
-                }); //enableHighAccuracy 要求浏览器获取最佳结果
-            } else {
-                map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
-            }
+             //处理定位后的信息
 
-            //处理定位后的信息
+             var radius = scenicArray.radius;
 
-            var radius = scenicArray.radius;
+             function showLocation(r) {
+                 if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
+                     //              范围匹配
+                     var current = new BMap.Point(r.longitude,r.latitude);
+                     alert(current);
+                     var myIcon = new BMap.Icon('https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/common/img/popr.png', new BMap.Size(33, 35));
+                     marker = new BMap.Marker(current, {icon:myIcon});
+                     map.addOverlay(marker);
+                     var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius/2,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
+                     if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
+                         for(var j=0;j<spotList.length;j++){
+                             var lolatitude = strsplit(spotList[j].coords);
+                             var sceniccircle = new BMap.Circle( new BMap.Point(lolatitude[0],lolatitude[1]),20,{fillColor:"#FFFFFF", strokeWeight: 1,fillOpacity: 0.1, strokeOpacity: 0.1});
+                             if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)) {
+                                 var scenicId = lolatitude[0] + '' + lolatitude[1];
+                                 document.getElementById(scenicId).play();
 
-            function showLocation(r) {
-                if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
-                    //              范围匹配
-                    var current = new BMap.Point(r.longitude,r.latitude);
-                    alert(current);
-                    var myIcon = new BMap.Icon('https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/common/img/popr.png', new BMap.Size(33, 35));
-                    marker = new BMap.Marker(current, {icon:myIcon});
-                    map.addOverlay(marker);
-                    var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius/2,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
-                    if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
-                        for(var j=0;j<spotList.length;j++){
-                            var lolatitude = strsplit(spotList[j].coords);
-                            var sceniccircle = new BMap.Circle( new BMap.Point(lolatitude[0],lolatitude[1]),20,{fillColor:"#FFFFFF", strokeWeight: 1,fillOpacity: 0.1, strokeOpacity: 0.1});
-                            if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)) {
-                                var scenicId = lolatitude[0] + '' + lolatitude[1];
-                                document.getElementById(scenicId).play();
+                             }else {
+                                 alert("不在景点 "+spotList[j].name+" 圆圈内");
+                             }
+                             map.addOverlay(sceniccircle)
+                         }
+                         var  request = new Request();
+                         var URL =  Headapi('web/v1/wx-user/first');
+                         request.ajax({
+                             url: URL,
+                             type: 'get',
+                             data: {
+                                 scenicId: Number($("#thefirst").val()),
+                                 token: $("#TokenVlaue").val(),
+                             },
+                             success: function (res) {
+                                 console.log(res);
+                             },
+                             error: function (err) {
+                                 console.log(err);
+                             },
+                         })
+                         $("#gethost").hide();
+                         $("#sethost").show();
+                         timer = setTimeout("gethost()",180000);
+                     }else {
+                         alert("不在该景区，不能开启该功能");
+                     }
 
-                            }else {
-                                alert("不在景点 "+spotList[j].name+" 圆圈内");
-                            }
-                            map.addOverlay(sceniccircle)
-                        }
-                        var  request = new Request();
-                        var URL =  Headapi('web/v1/wx-user/first');
-                        request.ajax({
-                            url: URL,
-                            type: 'get',
-                            data: {
-                                scenicId: Number($("#thefirst").val()),
-                                token: $("#TokenVlaue").val(),
-                            },
-                            success: function (res) {
-                                console.log(res);
-                            },
-                            error: function (err) {
-                                console.log(err);
-                            },
-                        })
-                        $("#gethost").hide();
-                        $("#sethost").show();
-                        timer = setTimeout("gethost()",180000);
-                    }else {
-                        alert("不在该景区，不能开启该功能");
-                    }
-
-                    map.addOverlay(circle);
-                    // alert(r.longitude+","+r.latitude);
-                    // console.log(r.longitude);
-                    // console.log(r.latitude);
-                } else {
-                    alert('failed' + this.getStatus()); //定位失败
-                }
-            }
-        }())
-            // }else {
-            //     alert("暂未购买该功能");
-            // }
-        
+                     map.addOverlay(circle);
+                     // alert(r.longitude+","+r.latitude);
+                     // console.log(r.longitude);
+                     // console.log(r.latitude);
+                 } else {
+                     alert('failed' + this.getStatus()); //定位失败
+                 }
+             }
+             // }else {
+             //     alert("暂未购买该功能");
+             // }
+             let Geolocation = undefined;
+           }
     }
+
+
 
  // 取消自动讲解
     function sethost() {
