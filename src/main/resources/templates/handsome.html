@@ -12,8 +12,14 @@
     <script th:src="@{/Js/requset.js}"></script>
 
     <script th:src="@{/Js/utility.js}"></script>
-    <script type="text/javascript" th:src="@{/Js/GeoUtils.js}"></script>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q">
+    <script type="text/javascript" id="baidu" src="https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q"></script>
+    <script type="text/javascript" th:src="@{/Js/GeoUtils.js}">
+
+//        window.onload=function(){
+//
+
+//
+//        }
 
         var html = document.querySelector('handsome');
         changeRem();
@@ -515,6 +521,9 @@
 
         })
 
+
+
+
     $(function(){
         $("#gethost").show();
         $("#sethost").hide();
@@ -935,9 +944,8 @@
     // 点击自动讲解
     var timer = null;
     function gethost() {
-        
-
-
+            var srcList = 'https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q';
+             document.getElementById('baidu').src= srcList;
             var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
             var coords = strsplit(scenicArray.coords);
             var northeast =strsplit(scenicArray.northeast);
@@ -1037,14 +1045,15 @@
 
 //         是否该买该景区
             var scenicState = scenicArray.scenicState;
-           Geolocation()
+
             // if(scenicState){
             //     //判断手机浏览器是否支持定位
-          function Geolocation() {
+
              if(navigator.geolocation) {
                  var geolocation = new BMap.Geolocation(); //创建定位实例
                  geolocation.getCurrentPosition(showLocation, {
-                     enableHighAccuracy: true
+                     enableHighAccuracy: true,
+                     maximumAge: 3000
                  }); //enableHighAccuracy 要求浏览器获取最佳结果
              } else {
                  map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
@@ -1109,8 +1118,8 @@
              // }else {
              //     alert("暂未购买该功能");
              // }
-             let Geolocation = undefined;
-           }
+
+
     }
 
 
@@ -1129,7 +1138,6 @@
         clearTimeout(timer);
 
     }
-
 </script>
 <script type="text/javascript">
  function BaiduMap(scenicArray){
