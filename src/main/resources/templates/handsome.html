@@ -1041,24 +1041,40 @@
 
         // if(scenicState){
         //     //判断手机浏览器是否支持定位
-        if(navigator.geolocation) {
-            var geolocation = new BMap.Geolocation(); //创建定位实例
-            geolocation.watchPosition(showLocation, {
-                enableHighAccuracy: true
-            }); //enableHighAccuracy 要求浏览器获取最佳结果
-        } else {
-            map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
-        }
-        var gc = new BMap.Geocoder();//将坐标转换成地址
+        var id, target, options;
 
+
+
+        function error(err) {
+            console.warn('ERROR(' + err.code + '): ' + err.message);
+        }
+
+        target = {
+            latitude : 0,
+            longitude: 0
+        };
+
+        options = {
+            enableHighAccuracy: false,
+            // timeout: 5000,
+            maximumAge: 0
+        };
+
+        id = navigator.geolocation.watchPosition(success, error, options);
+        // console.log(navigator.geolocation.watchPosition(success, error, options));
         //处理定位后的信息
 
         var radius = scenicArray.radius;
 
-        function showLocation(r) {
-            if(this.getStatus() == BMAP_STATUS_SUCCESS) { //定位成功
+        function success(pos) {
+            var crd = pos.coords;
+            console.log(crd);
+            if (target.latitude === crd.latitude && target.longitude === crd.longitude) {
+                console.log('Congratulations, you reached the target');
+                navigator.geolocation.clearWatch(id);
+            }else {
                 //              范围匹配
-                var current = new BMap.Point(r.longitude,r.latitude);
+                var current = new BMap.Point(crd.longitude,crd.latitude);
                 var myIcon = new BMap.Icon('https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/common/img/popr.png', new BMap.Size(33, 35));
                 marker = new BMap.Marker(current, {icon:myIcon});
                 map.addOverlay(marker);
@@ -1101,15 +1117,12 @@
                 // alert(r.longitude+","+r.latitude);
                 // console.log(r.longitude);
                 // console.log(r.latitude);
-            } else {
-                alert('failed' + this.getStatus()); //定位失败
-            }
-        }
+           }
         // }else {
         //     alert("暂未购买该功能");
         // }
 
-
+        }
 
 
 
