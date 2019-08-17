@@ -13,6 +13,7 @@
 
     <script th:src="@{/Js/utility.js}"></script>
     <script type="text/javascript" id="baidu" src="https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q"></script>
+    <script type="text/javascript" id="baiduTwo" src="https://api.map.baidu.com/getscript?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q&services=&t=20190622163250"></script>
     <script type="text/javascript" th:src="@{/Js/GeoUtils.js}">
 
 //        window.onload=function(){
@@ -944,11 +945,61 @@
     // 点击自动讲解
     var timer = null;
     function gethost() {
-                var head= document.getElementsByTagName('head')[3];
-                var script= document.createElement('script');
-                script.type= 'text/javascript';
-                script.src= 'https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q';
-                head.appendChild(script);
+
+                // var head= document.getElementsByTagName('head')[0];
+                var head= document.getElementsByTagName('head')[0];
+                // var scriptbaidu = document.getElementById("baidu");
+                // var scriptbaiduTwo = document.getElementById("baiduTwo");
+                // head.removeChild(scriptbaidu);
+        // scriptbaidu.find('script').remove();
+                // head.removeChild(scriptbaiduTwo);
+
+        var script= document.createElement('script');
+        script.type= 'text/javascript';
+        script.src= 'https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q';
+        head.appendChild(script);
+                 // var script= document.createElement('script');
+                 // script.type= 'text/javascript';
+                 // script.src= 'https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q';
+                 // script.id='baidu';
+            //      script.onreadystatechange= function () {
+            //           if (this.readyState == 'complete')
+            // // callback();
+            //            console.log("123")
+            //        }
+            //     script.onload= function(){
+            // // callback();
+            //          console.log("456")
+            //     }
+            //     head.appendChild(script);
+                // var src= 'https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q';
+                // document.getElementById("baidu").src = src;
+                // var srcTwo = "https://api.map.baidu.com/getscript?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q&services=&t=20190622163250"
+                // document.getElementById("baiduTwo").src = srcTwo;
+
+
+            //
+            //     scriptbaidu.onreadystatechange= function () {
+            //            if (this.readyState == 'complete')
+            //                 // callback();
+            //
+            //             }
+            //     scriptbaidu.onload= function(){
+            //               // callback();
+            //               console.log("456")
+            //            }
+            //
+            // scriptbaiduTwo.onreadystatechange= function () {
+            //     if (this.readyState == 'complete')
+            // // callback();
+            //
+            //    }
+            //      scriptbaiduTwo.onload= function(){
+            // // callback();
+            //          console.log("910j")
+            //        }
+
+
 
             var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
             var coords = strsplit(scenicArray.coords);
