@@ -944,8 +944,12 @@
     // 点击自动讲解
     var timer = null;
     function gethost() {
-            var srcList = 'https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q';
-             document.getElementById('baidu').src= srcList;
+                var head= document.getElementsByTagName('head')[3];
+                var script= document.createElement('script');
+                script.type= 'text/javascript';
+                script.src= 'https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q';
+                head.appendChild(script);
+
             var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
             var coords = strsplit(scenicArray.coords);
             var northeast =strsplit(scenicArray.northeast);
@@ -958,7 +962,7 @@
             // 创建Map实例
             var map = new BMap.Map("allmap");
             // 居中放大
-            map.centerAndZoom(TianAnMen, rank);
+            map.centerAndZoom(TianAnMen, 19);
 
             // 启用滚轮放大缩小
             map.enableScrollWheelZoom();
