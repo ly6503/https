@@ -943,7 +943,8 @@
             url: URL,
             type: 'get',
             data: {
-                url: 'https://www.qiouou.com:9530/map?scenicId='+scenicId+'&token='+token,//将第一个#号前的地址传递
+                scenicId: scenicId,
+                token:token ,//将第一个#号前的地址传递
             },
             success: function (res) {
                 wx.config({
