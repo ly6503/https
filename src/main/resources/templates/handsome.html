@@ -936,12 +936,14 @@
 
         var request=new Request();
         var URL =  Headapi('web/v1/wx-user/getSigna');
+        var TokenVlaue =$("#TokenVlaue").val()
         alert(location.href.split('#')[0]);
         request.ajax({
             url: URL,
             type: 'get',
             data: {
                 url: location.href.split('#')[0],//将第一个#号前的地址传递
+                token:TokenVlaue
             },
             success: function (res) {
                 wx.config({
