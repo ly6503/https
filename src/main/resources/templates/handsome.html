@@ -946,7 +946,7 @@
             },
             success: function (res) {
                 wx.config({
-                    debug: true,
+                    debug: false,
                     appId: res.appId,
                     timestamp: res.timestamp,
                     nonceStr: res.nonceStr,
@@ -966,9 +966,9 @@
            wx.getLocation({
                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                success: function (res) {
-                   var parse = JSON.parse(res);
-                   var latitude = parse.latitude; // 纬度，浮点数，范围为90 ~ -90
-                   var longitude = parse.longitude; // 经度，浮点数，范围为180 ~ -180。
+                   // var parse = JSON.parse(res);
+                   var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                   var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
                    alert(latitude);
                    alert(longitude)
                    var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
