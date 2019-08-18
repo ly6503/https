@@ -975,18 +975,24 @@
                         }
                     });
 
-                    wx.getLocation({
-                        type: 'gcj02',//默认为wgs84的gps坐标，
-                        //如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                        success: function (res) {
-                            alert(res);
-                            var latitude = res.latitude;
-                            var longitude = res.longitude;
-                            var speed = res.speed;
-                            var accuracy = res.accuracy;
-                            appendText('经度：' + latitude + '，纬度：' + longitude);
-                        }
-                    })
+                    wx.ready(function () {
+                        wx.getLocation({
+                            type: 'gcj02',
+                            success: function (res) {
+                                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                                alert(longitude, latitude); //调用高德地图的API
+                            },
+                            fail: function () {
+                                loadArea("31.1497879079", "121.1242591886");
+                                alert("无法获取您的城市信息,请稍后重试!", "提示");
+                            },
+                            cancel: function () {
+                                loadArea("31.1497879079", "121.1242591886");
+                                alert("无法获取您的城市信息,请允许获取您的位置信息!");
+                            }
+                        });
+                    });
                 });
             }
         })
