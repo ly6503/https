@@ -948,13 +948,11 @@
                     debug: false,
                     appId: res.appId,
                     timestamp: res.timestamp,
-                    nonceStr: res.noncestr,
+                    nonceStr: res.nonceStr,
                     signature: res.signature,
                     jsApiList: ['checkJsApi', 'getLocation','chooseImage','uploadImage','openLocation']
                 });
                 wx.ready(function(){
-
-
                     wx.checkJsApi({
                         jsApiList: [
                             'getLocation'
