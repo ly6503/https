@@ -539,8 +539,6 @@
         var urlId = getUrlParam();
         var scenicId = Number(urlId.scenicId);
         var token = urlId.token;
-          console.log(scenicId);
-          console.log(typeof token);
 
 
         var request=new Request();
@@ -936,6 +934,86 @@
     // 点击自动讲解
     var timer = null;
     function gethost() {
+
+        var request=new Request();
+        var URL =  Headapi('web/v1/wx-user/getSigna');
+        console.log(URL);
+        request.ajax({
+            url: URL,
+            type: 'get',
+            data: {
+                url: location.href.split('#')[0],//将第一个#号前的地址传递
+            },
+            success: function (res) {
+                wx.config({
+                    debug: true,
+                    appId: res.appId,
+                    timestamp: res.timestamp,
+                    nonceStr: res.noncestr,
+                    signature: res.signature,
+                    jsApiList: ['checkJsApi', 'getLocation']
+                });
+                wx.ready(function () {
+                    wx.getLocation({
+                        //获得定位成功
+                        success: function (res) {
+                            //这是微信返回的真正经纬度
+                            var oldLat = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                            var oldLng = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                            alert(oldLat);
+                            alert(oldLng);
+                            // /*下面是为了将获得的真正经纬度转换为对应的百度经纬度，因为是利用百度地图的经纬度去查询数据的，数据库中存的也是百度的经纬度*/
+                            // //创建一个百度地图的点
+                            // var customerPoint = new BMap.Point(oldLng, oldLat);
+                            // //
+                            // var convertor = new BMap.Convertor();
+                            //
+                            // var pointArr = [];//创建一个数组
+                            // pointArr.push(customerPoint);//将刚才的点放进去
+                            // convertor.translate(pointArr, 1, 5, initMap); //转换坐标
+                            // function initMap(data) {
+                            //     if (data.status === 0) {//转换成功
+                            //         var point = data.points[0];//得到后的点
+                            //         var lng = point.lng;//获得转换后的经度
+                            //         var lat = point.lat;//获得转换后的纬度
+                            //         toDoFunction(lng, lat);//将经纬度传入到要运用的函数中
+                            //     } else {
+                            //         //下面两行是默认定位到西湖的经纬度
+                            //         lng = 120.141375;
+                            //         lat = 30.257806;
+                            //         toDoFunction(lng, lat);//将经纬度传入到要运用的函数中
+                            //     }
+                            // }
+
+                        },
+
+                    })
+                })
+
+            }
+        })
+        // $.ajax({
+        //     url: URL,//请求地址
+        //     type: 'post',//post请求
+        //     dataType: 'json',
+        //     // async:false,
+        //     contentType: "application/json; charset=UTF-8",
+        //     data: JSON.stringify(url),
+        //     //请求成功的函数
+        //     success: function (data) {
+        //         wx.config({
+        //             // debug: true,
+        //
+
+
+
+        //             timestamp: data.data.timestamp,
+        //             nonceStr: data.data.nonceStr,
+        //             signature: data.data.signature,
+        //             jsApiList: ['checkJsApi', 'getLocation']
+        //         });
+        //     }
+        // })
         var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
         var coords = strsplit(scenicArray.coords);
         var northeast = strsplit(scenicArray.northeast);
@@ -1038,14 +1116,14 @@
 
         // if(navigator.geolocation) {
         //     var geolocation = new BMap.Geolocation(); //创建定位实例
-        navigator.geolocation.getCurrentPosition(showLocation); //enableHighAccuracy 要求浏览器获取最佳结果
-
-        function showLocation(position) {
-            var currentLat = position.coords.latitude;
-            var currentLon = position.coords.longitude;
-            alert(currentLon);
-            alert(currentLat);
-        }
+        // navigator.geolocation.getCurrentPosition(showLocation); //enableHighAccuracy 要求浏览器获取最佳结果
+        //
+        // function showLocation(position) {
+        //     var currentLat = position.coords.latitude;
+        //     var currentLon = position.coords.longitude;
+        //     alert(currentLon);
+        //     alert(currentLat);
+        // }
         // } else {
         //     map.addControl(new BMap.GeolocationControl()); //添加定位控件 支持定位
         // }
