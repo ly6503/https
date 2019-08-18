@@ -1078,15 +1078,20 @@
                            var myIcon = new BMap.Icon('https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/common/img/popr.png', new BMap.Size(33, 35));
                            markerPerson = new BMap.Marker(current, {icon:myIcon});
                            map.addOverlay(markerPerson);
+                           map.getPanes().markerPane.style.zIndex = 500;
                            var circle = new BMap.Circle(new BMap.Point(coords[0],coords[1]),radius/2,{fillColor:"#FFFFFF", strokeWeight: 1 ,fillOpacity:0.1, strokeOpacity: 0.1});
                            if(BMapLib.GeoUtils.isPointInCircle(current,circle)){
                                for(var j=0;j<spotList.length;j++){
+                                   var aduioCount = 0;
                                    var lolatitude = strsplit(spotList[j].coords);
                                    var sceniccircle = new BMap.Circle( new BMap.Point(lolatitude[0],lolatitude[1]),20,{fillColor:"#FFFFFF", strokeWeight: 1,fillOpacity: 0.1, strokeOpacity: 0.1});
                                    if(BMapLib.GeoUtils.isPointInCircle(current,sceniccircle)) {
-                                       var scenicId = lolatitude[0] + '' + lolatitude[1];
-                                       document.getElementById(scenicId).play();
-
+                                       if(aduioCount == 0){
+                                           var scenicId = lolatitude[0] + '' + lolatitude[1];
+                                           document.getElementById(scenicId).play();
+                                           var timeOut = spotList[j].timeOut;
+                                           ++aduioCount;
+                                       }
                                    }else {
                                        // alert("不在景点 "+spotList[j].name+" 圆圈内");
                                    }
@@ -1110,7 +1115,7 @@
                                })
                                $("#gethost").hide();
                                $("#sethost").show();
-                               timer = setTimeout("gethost()",10000);
+                               timer = setTimeout("gethost()",timeOut);
                            }else {
                                alert("不在该景区，不能开启该功能");
                            }
