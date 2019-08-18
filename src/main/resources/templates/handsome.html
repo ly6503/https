@@ -943,9 +943,10 @@
             type: 'get',
             data: {
                 url: location.href.split('#')[0],//将第一个#号前的地址传递
-                token:TokenVlaue
+                token: TokenVlaue
             },
             success: function (res) {
+                console.log(res.appId, res.nonceStr, res.timestamp, res.signature);
                 wx.config({
                     debug: false,
                     appId: res.appId,
@@ -958,42 +959,25 @@
                         'onMenuShareAppMessage', 'onMenuShareQQ',
                         'onMenuShareWeibo', 'onMenuShareQZone']
                 });
-                wx.ready(function(){
-
-
-                    wx.checkJsApi({
-                        jsApiList: [
-                            'getLocation'
-                        ],
+                wx.ready(function () {
+                    wx.getLocation({
+                        type: 'gcj02',
                         success: function (res) {
-                            // alert(JSON.stringify(res));
-                            // alert(JSON.stringify(res.checkResult.getLocation));
-                            if (res.checkResult.getLocation == false) {
-                                alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
-                                return;
-                            }
+                            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                            alert(longitude, latitude); //调用高德地图的API
+                        },
+                        fail: function () {
+                            loadArea("31.1497879079", "121.1242591886");
+                            alert("无法获取您的城市信息,请稍后重试!", "提示");
+                        },
+                        cancel: function () {
+                            loadArea("31.1497879079", "121.1242591886");
+                            alert("无法获取您的城市信息,请允许获取您的位置信息!");
                         }
                     });
-
-                    wx.ready(function () {
-                        wx.getLocation({
-                            type: 'gcj02',
-                            success: function (res) {
-                                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                                alert(longitude, latitude); //调用高德地图的API
-                            },
-                            fail: function () {
-                                loadArea("31.1497879079", "121.1242591886");
-                                alert("无法获取您的城市信息,请稍后重试!", "提示");
-                            },
-                            cancel: function () {
-                                loadArea("31.1497879079", "121.1242591886");
-                                alert("无法获取您的城市信息,请允许获取您的位置信息!");
-                            }
-                        });
-                    });
                 });
+
             }
         })
         // $.ajax({
