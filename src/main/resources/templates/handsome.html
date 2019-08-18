@@ -965,7 +965,7 @@
                 wx.ready(function() {
                     alert("成功");
                     wx.getLocation({
-                        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                        // type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                         success: function (res) {
                             alert(res);
                             var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
@@ -976,7 +976,7 @@
                     });
                 })
                 wx.error(function (res) {
-                    alert(res);
+                    // alert(res);
                 });
             },
             error: function(err) {
