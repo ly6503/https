@@ -934,6 +934,7 @@
     }
     // 点击自动讲解
     var timer = null;
+    var timers = null;
     function gethost() {
             alert("1");
             var scenicArray = JSON.parse(window.localStorage.getItem("scenicArray"));
@@ -948,7 +949,7 @@
             // 创建Map实例
             var map = new BMap.Map("allmap");
             // 居中放大
-            map.centerAndZoom(TianAnMen, rank);
+            map.centerAndZoom(TianAnMen, 19);
 
             // 启用滚轮放大缩小
             map.enableScrollWheelZoom();
@@ -1070,7 +1071,7 @@
                                  document.getElementById(scenicId).play();
 
                              }else {
-                                 alert("不在景点 "+spotList[j].name+" 圆圈内");
+                                 // alert("不在景点 "+spotList[j].name+" 圆圈内");
                              }
                              map.addOverlay(sceniccircle)
                          }
@@ -1092,7 +1093,7 @@
                          })
                          $("#gethost").hide();
                          $("#sethost").show();
-                         timer = setTimeout("gethostTwo()",10000);
+                         timers = setTimeout("gethostTwo()",10000);
                      }else {
                          alert("不在该景区，不能开启该功能");
                      }
@@ -1126,7 +1127,7 @@
            // 创建Map实例
            var map = new BMap.Map("allmap");
            // 居中放大
-           map.centerAndZoom(TianAnMen, rank);
+           map.centerAndZoom(TianAnMen, 19);
 
            // 启用滚轮放大缩小
            map.enableScrollWheelZoom();
@@ -1248,7 +1249,7 @@
                                document.getElementById(scenicId).play();
 
                            }else {
-                               alert("不在景点 "+spotList[j].name+" 圆圈内");
+                               // alert("不在景点 "+spotList[j].name+" 圆圈内");
                            }
                            map.addOverlay(sceniccircle)
                        }
@@ -1302,7 +1303,7 @@
             document.getElementById(scenicId).pause();
         }
         clearTimeout(timer);
-
+        clearTimeout(timers);
     }
 
 </script>
