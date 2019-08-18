@@ -1072,9 +1072,9 @@
                    //处理定位后的信息
 
                            var radius = scenicArray.radius;
-                          var wxLatLng = change(latitude,longitude);
+                           var wxLatLng = change(latitude,longitude);
                            //              范围匹配
-                           var current = new BMap.Point(wxLatLng.lat,wxLatLng.lng);
+                           var current = new BMap.Point(wxLatLng.lng,wxLatLng.lat);
                            var myIcon = new BMap.Icon('https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/common/img/popr.png', new BMap.Size(33, 35));
                            markerPerson = new BMap.Marker(current, {icon:myIcon});
                            map.addOverlay(markerPerson);
