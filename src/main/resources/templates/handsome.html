@@ -1089,7 +1089,7 @@
                                        if(aduioCount == 0){
                                            var scenicId = lolatitude[0] + '' + lolatitude[1];
                                            document.getElementById(scenicId).play();
-                                           var timeOut = spotList[j].timeOut;
+                                           var timeOut = Number(spotList[j].timeOut)*1000;
                                            ++aduioCount;
                                        }
                                    }else {
