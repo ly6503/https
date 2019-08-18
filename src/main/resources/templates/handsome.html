@@ -935,13 +935,15 @@
     function gethost() {
 
         var request=new Request();
+        var  scenicId = $("#thefirst").val()
+        var token =$("#TokenVlaue").val()
         var URL =  Headapi('web/v1/wx-user/getSigna');
         alert(location.href.split('#')[0]);
         request.ajax({
             url: URL,
             type: 'get',
             data: {
-                url: location.href.split('#')[0],//将第一个#号前的地址传递
+                url: 'https://www.qiouou.com:9530/map?scenicId='+scenicId+'&token='+token,//将第一个#号前的地址传递
             },
             success: function (res) {
                 wx.config({
@@ -972,9 +974,11 @@
                         success: function (res) {
                             var latitude = res.latitude;
                             var longitude = res.longitude;
-                            var speed = res.speed;
-                            var accuracy = res.accuracy;
-                            appendText('经度：' + latitude + '，纬度：' + longitude);
+                            alert(latitude)
+                            alert(longitude)
+                            // var speed = res.speed;
+                            // var accuracy = res.accuracy;
+                            // appendText('经度：' + latitude + '，纬度：' + longitude);
                         }
                     })
                 });
