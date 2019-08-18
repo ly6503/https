@@ -1071,10 +1071,8 @@
 
                    //处理定位后的信息
 
-                         var radius = scenicArray.radius;
+                           var radius = scenicArray.radius;
                           var wxLatLng = change(latitude,longitude);
-                         alert(wxLatLng.lat);
-                          alert(wxLatLng.lng)
                            //              范围匹配
                            var current = new BMap.Point(wxLatLng.lat,wxLatLng.lng);
                            var myIcon = new BMap.Icon('https://7ouou-guide.oss-cn-chengdu.aliyuncs.com/common/img/popr.png', new BMap.Size(33, 35));
@@ -1118,9 +1116,7 @@
                            }
 
                            map.addOverlay(circle);
-                           // alert(r.longitude+","+r.latitude);
-                           // console.log(r.longitude);
-                           // console.log(r.latitude);
+                           alert(wxLatLng.lat+","+wxLatLng.lng);
                      } else{
                        alert("暂未购买该功能");
                       }
