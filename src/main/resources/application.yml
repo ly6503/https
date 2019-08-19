@@ -13,4 +13,4 @@ server:
     key-store: classpath:2523869_www.qiouou.com.pfx
     key-store-password: 0AUwQP1o
     keyStoreType: PKCS12
-  port: 443
+  port: 9530
