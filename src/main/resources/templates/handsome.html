@@ -37,15 +37,39 @@
 <body >
 <input type="hidden" id="thefirst"  th:value="${scenicId}" />
 <input type="hidden" id="TokenVlaue" th:value="${token}"/>
-<div id="overall-box">
+<!--//动画样式-->
+<div id="spinner" class="spinner">
+    <div class="spinner-container container1">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+    <div class="spinner-container container2">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+    <div class="spinner-container container3">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+</div>
+<div  id="overall-box">
 <div id="tab">
 
     <div class="offes" ><span class="off" id="showmap">电子导游</span></div>
     <div class="offes" ><span class="off" id="hidemap">景点信息</span></div>
 
 </div>
+
+
+
     <!--//第一个模块样式-->
-    <div id="rectangle-allmap">
+    <div  id="rectangle-allmap">
         <div id="allmap" ></div>
             <div class="map-use-tools">
               <div class="map-buy" id="mapBuyPur"  onclick="purchase()" >立即购买</div>
@@ -519,6 +543,7 @@
         })
 
     $(function(){
+        $("#overall-box").hide()
         $("#gethost").show();
         $("#sethost").hide();
         $("#showmap").addClass("checked");
@@ -590,6 +615,9 @@
                 }
                 BaiduMap(scenicArray);
                 window.localStorage.setItem("scenicArray",JSON.stringify(scenicArray));
+
+                $("#spinner").hide()
+                $("#overall-box").show()
             },
             error:function(err){
                 console.log(err);
@@ -597,6 +625,7 @@
         })
 
     })
+
 
 
 
