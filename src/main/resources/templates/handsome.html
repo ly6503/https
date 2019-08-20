@@ -15,6 +15,7 @@
     <script type="text/javascript" th:src="@{/Js/GeoUtils.js}"></script>
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=aUD0BFFA6ENBhK7bmxFS0kaN1MmRwM3q"></script>
     <script type="text/javascript" src="https://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+     <script th:src="@{/JS/audio.min.js}"></script>
      <script th:src="@{/JS/baidu.js}">
         var html = document.querySelector('handsome');
         changeRem();
@@ -31,6 +32,7 @@
     <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.0.0.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.3.min.js"></script>
+
     <title>地图导航</title>
 </head>
 
@@ -616,8 +618,8 @@
                 BaiduMap(scenicArray);
                 window.localStorage.setItem("scenicArray",JSON.stringify(scenicArray));
 
-                $("#spinner").hide()
-                $("#overall-box").show()
+
+
             },
             error:function(err){
                 console.log(err);
@@ -628,9 +630,7 @@
 
 
 
-
-
-    // function getLocation(){
+       // function getLocation(){
     //
     //     if(navigator.geolocation){
     //         alert("adc");
@@ -1352,14 +1352,12 @@
          }
          $("#scenicplaypued").html(Musichtml);
 
-         //     //重复执行某个方法
+        //判断语音是否加载完成
+        audiojs.events.ready(function() {
+           $("#spinner").hide()
+           $("#overall-box").show()
+        });
 
-         // var t2 = window.setInterval("circulation()",3000);
-
-         //去掉定时器的方法
-
-         // window.clearInterval(t1);
-         // return circleMusic;
 
  }
 
