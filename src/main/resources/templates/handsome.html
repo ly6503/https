@@ -1352,11 +1352,12 @@
          }
          $("#scenicplaypued").html(Musichtml);
 
-        //判断语音是否加载完成
-        audiojs.events.ready(function() {
-           $("#spinner").hide()
-           $("#overall-box").show()
-        });
+        setTimeout(function () {
+            $("#spinner").hide()
+            $("#overall-box").show()
+        },7000)
+
+
 
 
  }
