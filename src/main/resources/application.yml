@@ -10,7 +10,7 @@ spring:
 
 server:
   ssl:
-    key-store: classpath:2523869_www.qiouou.com.pfx
-    key-store-password: 0AUwQP1o
+    key-store: classpath:2549116_wx.qiouou.com.pfx
+    key-store-password: I2hWa7Sm
     keyStoreType: PKCS12
   port: 443

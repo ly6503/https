@@ -13,6 +13,7 @@ public class ViewsController {
 
     @RequestMapping(value = "/map",method = RequestMethod.GET)
     public String helloHtml(@RequestParam Long scenicId ,@RequestParam String token,  Model model) {
+        System.out.println("hello");
         model.addAttribute("scenicId",scenicId);
         model.addAttribute("token",token);
         return "handsome";
